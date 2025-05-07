@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-    
 <head>
   <meta charset="UTF-8">
   <title>Consulta de Precios</title>
@@ -15,14 +14,25 @@
   <!-- Lector de códigos -->
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
+  <!-- Favicon -->
+  <link rel="icon" href="./images/back9ico.ico" type="image/x-icon">
+
   <style>
     #reader {
       width: 100%;
       max-width: 400px;
       margin: 20px auto;
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    #ayuda {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
     }
   </style>
-  <link rel="icon" href="./images/back9ico.ico" type="image/x-icon">
 </head>
 <body class="bg-light">
 
@@ -47,6 +57,7 @@
       </div>
 
       <div id="reader" style="display: none;"></div>
+      <p id="ayuda" style="display: none;">📌 Mantén el código centrado y bien iluminado para mejores resultados</p>
     </div>
   </div>
 
@@ -57,6 +68,7 @@
     const form = document.getElementById('formulario');
     const inputCodigo = document.getElementById('codigo');
     const readerDiv = document.getElementById('reader');
+    const ayudaTexto = document.getElementById('ayuda');
     let scannerActivo = false;
 
     form.addEventListener('submit', async (e) => {
@@ -88,9 +100,7 @@
           const producto = data.DATOS;
           Swal.fire({
             title: producto.NOMBRE,
-            html: `
-              <strong>Precio:</strong> $${producto.PRECIO}<br>
-            `,
+            html: `<strong>Precio:</strong> $${producto.PRECIO}<br>`,
             icon: "success",
             confirmButtonText: "OK"
           });
@@ -108,9 +118,20 @@
 
       scannerActivo = true;
       readerDiv.style.display = "block";
+      ayudaTexto.style.display = "block";
 
       const html5QrCode = new Html5Qrcode("reader");
-      const config = { fps: 10, qrbox: { width: 250, height: 100 } };
+
+      const config = {
+        fps: 10,
+        qrbox: { width: 300, height: 200 },
+        formatsToSupport: [
+          Html5QrcodeSupportedFormats.CODE_128,
+          Html5QrcodeSupportedFormats.EAN_13,
+          Html5QrcodeSupportedFormats.UPC_A,
+          Html5QrcodeSupportedFormats.UPC_E
+        ]
+      };
 
       html5QrCode.start(
         { facingMode: "environment" },
@@ -119,12 +140,13 @@
           inputCodigo.value = decodedText;
           html5QrCode.stop().then(() => {
             readerDiv.style.display = "none";
+            ayudaTexto.style.display = "none";
             scannerActivo = false;
             form.requestSubmit();
           });
         },
         (errorMessage) => {
-          // silenciar errores comunes
+          // silenciar errores
         }
       ).catch((err) => {
         scannerActivo = false;
