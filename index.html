@@ -145,6 +145,7 @@
             readerDiv.style.display = "none";
             ayudaTexto.style.display = "none";
             scannerActivo = false;
+            html5QrCode.clear(); // Limpia cualquier buffer, canvas, video, etc.
             form.requestSubmit();
           });
         },
