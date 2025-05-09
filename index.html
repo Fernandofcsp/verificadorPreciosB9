@@ -175,8 +175,8 @@
         const html5QrCode = new Html5Qrcode("reader");
 
         const config = {
-          fps: 20, // sube un poco el fps, porque los iPhone suelen manejar bien hasta 15-20 fps sin saturar
-          qrbox: { width: 200, height: 100 }, // haz el qrbox cuadrado para mejorar el enfoque, especialmente en Safari
+          fps: 5, // sube un poco el fps, porque los iPhone suelen manejar bien hasta 15-20 fps sin saturar
+          qrbox: { width: 300, height: 100 }, // haz el qrbox cuadrado para mejorar el enfoque, especialmente en Safari
           aspectRatio: 1.7777778, // 16:9 — ayuda a ajustar bien el viewport en iPhone
           formatsToSupport: [
             Html5QrcodeSupportedFormats.CODE_128,
