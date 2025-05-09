@@ -12,7 +12,6 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    
 
     <!-- Bootstrap CSS -->
     <link
@@ -176,8 +175,9 @@
         const html5QrCode = new Html5Qrcode("reader");
 
         const config = {
-          fps: 10,
-          qrbox: { width: 300, height: 100 },
+          fps: 15, // sube un poco el fps, porque los iPhone suelen manejar bien hasta 15-20 fps sin saturar
+          qrbox: { width: 280, height: 280 }, // haz el qrbox cuadrado para mejorar el enfoque, especialmente en Safari
+          aspectRatio: 1.7777778, // 16:9 — ayuda a ajustar bien el viewport en iPhone
           formatsToSupport: [
             Html5QrcodeSupportedFormats.CODE_128,
             Html5QrcodeSupportedFormats.EAN_13,
@@ -186,6 +186,9 @@
             Html5QrcodeSupportedFormats.UPC_E,
             Html5QrcodeSupportedFormats.CODE_39,
           ],
+          experimentalFeatures: {
+            useBarCodeDetectorIfSupported: true, // mejora mucho en iOS 14+ usando el API nativa
+          },
         };
 
         html5QrCode
