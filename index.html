@@ -168,63 +168,89 @@
       function iniciarScanner() {
         if (scannerActivo) return;
 
-        scannerActivo = true;
-        readerDiv.style.display = "block";
-        ayudaTexto.style.display = "block";
+        // Verificar permisos primero (importante en iOS)
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then((stream) => {
+            // Cerrar inmediatamente el stream de prueba
+            stream.getTracks().forEach((track) => track.stop());
 
-        const html5QrCode = new Html5Qrcode("reader");
+            // Mostrar el reader y ayuda
+            scannerActivo = true;
+            readerDiv.style.display = "block";
+            ayudaTexto.style.display = "block";
 
-        const config = {
-          fps: 5, // sube un poco el fps, porque los iPhone suelen manejar bien hasta 15-20 fps sin saturar
-          qrbox: { width: 300, height: 100 }, // haz el qrbox cuadrado para mejorar el enfoque, especialmente en Safari
-          aspectRatio: 1.7777778, // 16:9 — ayuda a ajustar bien el viewport en iPhone
-          formatsToSupport: [
-            Html5QrcodeSupportedFormats.CODE_128,
-            Html5QrcodeSupportedFormats.EAN_13,
-            Html5QrcodeSupportedFormats.EAN_8,
-            Html5QrcodeSupportedFormats.UPC_A,
-            Html5QrcodeSupportedFormats.UPC_E,
-            Html5QrcodeSupportedFormats.CODE_39,
-          ],
-          experimentalFeatures: {
-            useBarCodeDetectorIfSupported: true, // mejora mucho en iOS 14+ usando el API nativa
-          },
-        };
+            const html5QrCode = new Html5Qrcode("reader");
 
-        html5QrCode
-          .start(
-            { facingMode: "environment" },
-            config,
-            (decodedText) => {
-              console.log("Código leído:", decodedText);
-              inputCodigo.value = decodedText;
-              html5QrCode.stop().then(() => {
-                readerDiv.style.display = "none";
-                ayudaTexto.style.display = "none";
+            const config = {
+              fps: 20,
+              qrbox: function (viewfinderWidth, viewfinderHeight) {
+                // Ajusta dinámicamente según viewport
+                const width = Math.min(300, viewfinderWidth * 0.9);
+                const height = 100;
+                return { width, height };
+              },
+              aspectRatio: 1.77777,
+              formatsToSupport: [
+                Html5QrcodeSupportedFormats.CODE_128,
+                Html5QrcodeSupportedFormats.EAN_13,
+                Html5QrcodeSupportedFormats.EAN_8,
+                Html5QrcodeSupportedFormats.UPC_A,
+                Html5QrcodeSupportedFormats.UPC_E,
+                Html5QrcodeSupportedFormats.CODE_39,
+              ],
+              experimentalFeatures: {
+                useBarCodeDetectorIfSupported: true,
+              },
+            };
+
+            html5QrCode
+              .start(
+                { facingMode: "environment" },
+                config,
+                (decodedText) => {
+                  console.log("Código leído:", decodedText);
+                  inputCodigo.value = decodedText;
+                  html5QrCode.stop().then(() => {
+                    readerDiv.style.display = "none";
+                    ayudaTexto.style.display = "none";
+                    scannerActivo = false;
+                    html5QrCode.clear();
+                    form.requestSubmit();
+                  });
+                },
+                (errorMessage) => {
+                  // Aquí puedes loguear errores si quieres
+                }
+              )
+              .catch((err) => {
                 scannerActivo = false;
-                html5QrCode.clear();
-                form.requestSubmit();
+                Swal.fire(
+                  "Error de cámara",
+                  "No se pudo acceder a la cámara: " + err,
+                  "error"
+                );
               });
-            },
-            () => {}
-          )
+
+            // Forzar playsinline antes de que el video se use
+            const observer = new MutationObserver(() => {
+              const video = readerDiv.querySelector("video");
+              if (video) {
+                video.setAttribute("playsinline", "");
+                video.setAttribute("autoplay", "");
+                video.setAttribute("muted", ""); // recomendable para iOS
+                observer.disconnect();
+              }
+            });
+            observer.observe(readerDiv, { childList: true, subtree: true });
+          })
           .catch((err) => {
-            scannerActivo = false;
             Swal.fire(
-              "Error de cámara",
-              "No se pudo acceder a la cámara: " + err,
+              "Permiso de cámara denegado",
+              "Por favor autoriza el acceso a la cámara desde Configuración > Safari o la App",
               "error"
             );
           });
-
-        const observer = new MutationObserver(() => {
-          const video = readerDiv.querySelector("video");
-          if (video) {
-            video.setAttribute("playsinline", "");
-            observer.disconnect();
-          }
-        });
-        observer.observe(readerDiv, { childList: true, subtree: true });
       }
 
       // Registro del Service Worker
