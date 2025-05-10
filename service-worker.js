@@ -37,11 +37,22 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Fetch con respuesta desde caché
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
+  if (
+    event.request.destination === 'video' ||
+    event.request.url.startsWith('blob:')
+  ) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       return cachedResponse || fetch(event.request);
     })
   );
 });
+
