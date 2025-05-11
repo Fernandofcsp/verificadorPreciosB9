@@ -243,10 +243,10 @@
             const observer = new MutationObserver(() => {
               const video = readerDiv.querySelector("video");
               if (video) {
-                video.setAttribute("playsinline");
-                video.setAttribute("autoplay", "");
-                video.setAttribute("muted", ""); // recomendable para iOS
-                video.setAttribute("cover", "");
+                video.setAttribute("playsinline", "true");
+                video.setAttribute("autoplay", "true");
+                video.setAttribute("muted", "true"); // recomendable para iOS
+                video.setAttribute("controls", "false"); // Evitar controles en iOS
                 observer.disconnect();
               }
             });
@@ -254,7 +254,11 @@
           })
           .catch((err) => {
             console.error("Error iniciando scanner:", err);
-            manejarErrorIOS(err);
+            Swal.fire(
+              "Error de cámara",
+              "No se pudo acceder a la cámara. Por favor, verifica los permisos en Configuración.",
+              "error"
+            );
           });
       }
       function manejarErrorIOS(error) {
