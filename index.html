@@ -20,9 +20,8 @@
     />
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- QR Code Scanner -->
-    <!-- QuaggaJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+    <!-- ZXing QR Code Scanner -->
+    <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.6/umd/index.min.js"></script>
 
     <!-- Favicon -->
     <link rel="icon" href="./images/bastonico.png" type="image/png" />
@@ -89,7 +88,8 @@
           </button>
         </div>
 
-        <div id="reader" style="display: none"></div>
+        <video id="reader" style="display: none; width: 100%; max-width: 400px; border-radius: 8px;"></video>
+
         <p id="ayuda" style="display: none">
           📌 Mantén el código centrado, horizontal y bien iluminado para mejores
           resultados.
@@ -113,6 +113,7 @@
       const installBtn = document.getElementById("installBtn");
       let scannerActivo = false;
       let deferredPrompt;
+      let codeReader;
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -136,7 +137,7 @@
                   "application/x-www-form-urlencoded; charset=UTF-8",
                 "X-Requested-With": "XMLHttpRequest",
               },
-              body: `codigo=${codigo}`,
+              body: `codigo=${encodeURIComponent(codigo)}`,
             }
           );
 
@@ -170,56 +171,61 @@
 
       function iniciarScanner() {
         if (scannerActivo) return;
+        scannerActivo = true;
+
+        if (!codeReader) {
+          codeReader = new ZXing.BrowserMultiFormatReader();
+        }
+
+        console.log("ZXing iniciado, buscando dispositivos de video...");
 
         readerDiv.style.display = "block";
         ayudaTexto.style.display = "block";
-        scannerActivo = true;
 
-        Quagga.init(
-          {
-            inputStream: {
-              type: "LiveStream",
-              target: readerDiv,
-              constraints: {
-                facingMode: "environment", // cámara trasera
-              },
-            },
-            decoder: {
-              readers: [
-                "code_128_reader",
-                "ean_reader",
-                "ean_8_reader",
-                "code_39_reader",
-                "upc_reader",
-                "upc_e_reader",
-              ],
-            },
-            locate: true,
-          },
-          function (err) {
-            if (err) {
-              console.error("Error al iniciar Quagga:", err);
-              Swal.fire("Error", "No se pudo iniciar el escáner", "error");
+        codeReader
+          .listVideoInputDevices()
+          .then((videoInputDevices) => {
+            console.log("Dispositivos de video encontrados:", videoInputDevices);
+            if (videoInputDevices.length === 0) {
+              Swal.fire(
+                "No se encontró cámara",
+                "No hay cámaras disponibles",
+                "error"
+              );
               scannerActivo = false;
+              readerDiv.style.display = "none";
+              ayudaTexto.style.display = "none";
               return;
             }
-            Quagga.start();
-          }
-        );
 
-        Quagga.onDetected((data) => {
-          const codigo = data.codeResult.code;
-          console.log("Código leído:", codigo);
-          inputCodigo.value = codigo;
+            const firstDeviceId = videoInputDevices[0].deviceId;
 
-          Quagga.stop();
-          Quagga.offDetected();
-          readerDiv.style.display = "none";
-          ayudaTexto.style.display = "none";
-          scannerActivo = false;
-
-          form.requestSubmit();
-        });
+            codeReader.decodeFromVideoDevice(
+              firstDeviceId,
+              "reader",
+              (result, err) => {
+                if (result) {
+                  console.log("Código leído:", result.getText());
+                  inputCodigo.value = result.getText();
+                  codeReader.reset();
+                  readerDiv.style.display = "none";
+                  ayudaTexto.style.display = "none";
+                  scannerActivo = false;
+                  form.requestSubmit();
+                }
+                if (err && !(err instanceof ZXing.NotFoundException)) {
+                  console.error(err);
+                }
+              }
+            );
+          })
+          .catch((err) => {
+            console.error("Error listando dispositivos de video:", err);
+            Swal.fire("Error", "No se pudo acceder a la cámara", "error");
+            scannerActivo = false;
+            readerDiv.style.display = "none";
+            ayudaTexto.style.display = "none";
+          });
       }
 
       // Registro del Service Worker
@@ -239,7 +245,6 @@
         e.preventDefault();
         deferredPrompt = e;
 
-        // Verifica si el botón está visible y no se ha mostrado antes
         if (installBtn) {
           installBtn.classList.remove("d-none");
         }
@@ -247,10 +252,8 @@
 
       installBtn.addEventListener("click", (e) => {
         if (deferredPrompt) {
-          // Muestra el prompt de instalación
           deferredPrompt.prompt();
 
-          // Espera a que el usuario haga una elección
           deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === "accepted") {
               console.log("✅ Instalación aceptada");
@@ -258,7 +261,7 @@
               console.log("❌ Instalación rechazada");
             }
             deferredPrompt = null;
-            installBtn.classList.add("d-none"); // Ocultar el botón después de la elección
+            installBtn.classList.add("d-none");
           });
         }
       });
