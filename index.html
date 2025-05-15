@@ -89,7 +89,7 @@
         <div id="reader" style="display: none"></div>
         <p id="ayuda" style="display: none">
           📌 Mantén el código centrado, horizontal y bien iluminado para mejores
-          resultados. Activa la linterna si es posible.
+          resultados.
         </p>
       </div>
     </div>
@@ -183,14 +183,15 @@
             const html5QrCode = new Html5Qrcode("reader");
 
             const config = {
-              fps: 20,
+              fps: 10,
               qrbox: function (viewfinderWidth, viewfinderHeight) {
                 // Ajusta dinámicamente según viewport
                 const width = Math.min(300, viewfinderWidth * 0.9);
                 const height = 100;
                 return { width, height };
               },
-              aspectRatio: 1.77777,
+              rememberLastUsedCamera: true,
+              aspectRatio: 1.0,
               formatsToSupport: [
                 Html5QrcodeSupportedFormats.CODE_128,
                 Html5QrcodeSupportedFormats.EAN_13,
@@ -200,7 +201,7 @@
                 Html5QrcodeSupportedFormats.CODE_39,
               ],
               experimentalFeatures: {
-                useBarCodeDetectorIfSupported: true,
+                useBarCodeDetectorIfSupported: false,
               },
             };
 
@@ -238,7 +239,7 @@
               if (video) {
                 video.setAttribute("playsinline", "");
                 video.setAttribute("autoplay", "");
-                video.setAttribute("muted", ""); // recomendable para iOS
+                video.setAttribute("muted", ""); 
                 observer.disconnect();
               }
             });
@@ -247,7 +248,7 @@
           .catch((err) => {
             Swal.fire(
               "Permiso de cámara denegado",
-              "Por favor autoriza el acceso a la cámara desde Configuración > Safari o la App",
+              "Por favor autoriza el acceso a la cámara",
               "error"
             );
           });
