@@ -239,7 +239,7 @@
               if (video) {
                 video.setAttribute("playsinline", "");
                 video.setAttribute("autoplay", "");
-                video.setAttribute("muted", "");
+                video.setAttribute("muted", ""); 
                 observer.disconnect();
               }
             });
@@ -255,31 +255,45 @@
       }
 
       // Registro del Service Worker
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("service-worker.js")
+            .then((reg) =>
+              console.log("✅ Service Worker registrado:", reg.scope)
+            )
+            .catch((err) => console.error("❌ Error al registrar SW:", err));
+        });
+      }
+
+      // Manejo del evento beforeinstallprompt
       window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        // Muestra tu botón de instalación personalizado aquí
-        document.getElementById("installButton").style.display = "block";
-      });
 
-      document.getElementById("installButton").addEventListener("click", () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === "accepted") {
-              console.log("Usuario aceptó la instalación");
-            }
-            deferredPrompt = null;
-          });
+        // Verifica si el botón está visible y no se ha mostrado antes
+        if (installBtn) {
+          installBtn.classList.remove("d-none");
         }
       });
 
-      // Forzar actualización del Service Worker cuando sea necesario
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.addEventListener("controllerchange", () => {
-          window.location.reload();
-        });
-      }
+      installBtn.addEventListener("click", (e) => {
+        if (deferredPrompt) {
+          // Muestra el prompt de instalación
+          deferredPrompt.prompt();
+
+          // Espera a que el usuario haga una elección
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === "accepted") {
+              console.log("✅ Instalación aceptada");
+            } else {
+              console.log("❌ Instalación rechazada");
+            }
+            deferredPrompt = null;
+            installBtn.classList.add("d-none"); // Ocultar el botón después de la elección
+          });
+        }
+      });
     </script>
   </body>
 </html>
