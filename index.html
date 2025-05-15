@@ -4,26 +4,15 @@
     <meta charset="UTF-8" />
     <title>Consulta de Precios</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- PWA -->
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#ffffff" />
     <link rel="apple-touch-icon" href="./images/icons/icon-192.png" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- ZXing QR Code Scanner -->
     <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.6/umd/index.min.js"></script>
-
-    <!-- Favicon -->
     <link rel="icon" href="./images/bastonico.png" type="image/png" />
 
     <style>
@@ -31,21 +20,24 @@
         width: 100%;
         max-width: 400px;
         margin: 20px auto;
-        border: 2px dashed #ccc;
+        border: 2px dashed #007bff;
         border-radius: 8px;
         position: relative;
+        box-sizing: border-box;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
       }
       #reader video {
         width: 100%;
+        height: 100%;
+        object-fit: cover;
         border-radius: 8px;
       }
-
       #ayuda {
         text-align: center;
         font-size: 0.9rem;
         color: #666;
       }
-
       #installBtn {
         position: fixed;
         bottom: 20px;
@@ -54,16 +46,10 @@
       }
     </style>
   </head>
+
   <body class="bg-light">
-    <div
-      class="container min-vh-100 d-flex flex-column justify-content-center align-items-center"
-    >
-      <img
-        src="./images/logob9.png"
-        alt="Logo"
-        class="img-fluid mx-auto d-block mb-4"
-        style="max-width: 200px"
-      />
+    <div class="container min-vh-100 d-flex flex-column justify-content-center align-items-center">
+      <img src="./images/logob9.png" alt="Logo" class="img-fluid mx-auto d-block mb-4" style="max-width: 200px" />
 
       <div class="text-center mb-4">
         <h1 class="mb-3">Consulta de Precios</h1>
@@ -72,37 +58,21 @@
 
       <div class="w-100" style="max-width: 400px">
         <form id="formulario" class="d-flex gap-2 mb-3">
-          <input
-            type="text"
-            id="codigo"
-            class="form-control"
-            placeholder="Código de barras"
-            required
-          />
+          <input type="text" id="codigo" class="form-control" placeholder="Código de barras" required />
           <button type="submit" class="btn btn-primary">Consultar</button>
         </form>
 
         <div class="text-center mb-3">
-          <button onclick="iniciarScanner()" class="btn btn-outline-secondary">
-            📷 Escanear Código
-          </button>
+          <button onclick="iniciarScanner()" class="btn btn-outline-secondary">📷 Escanear Código</button>
         </div>
 
-        <video id="reader" style="display: none; width: 100%; max-width: 400px; border-radius: 8px;"></video>
-
-        <p id="ayuda" style="display: none">
-          📌 Mantén el código centrado, horizontal y bien iluminado para mejores
-          resultados.
-        </p>
+        <div id="reader" style="display: none;"></div>
+        <p id="ayuda" style="display: none">📌 Mantén el código centrado, horizontal y bien iluminado para mejores resultados.</p>
       </div>
     </div>
 
-    <!-- Botón para instalar -->
-    <button id="installBtn" class="btn btn-success d-none">
-      📲 Instalar App
-    </button>
+    <button id="installBtn" class="btn btn-success d-none">📲 Instalar App</button>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -115,10 +85,18 @@
       let deferredPrompt;
       let codeReader;
 
+      const formatosSoportados = [
+        ZXing.BarcodeFormat.CODE_128,
+        ZXing.BarcodeFormat.EAN_13,
+        ZXing.BarcodeFormat.EAN_8,
+        ZXing.BarcodeFormat.UPC_A,
+        ZXing.BarcodeFormat.UPC_E,
+        ZXing.BarcodeFormat.CODE_39,
+      ];
+
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const codigo = inputCodigo.value.trim();
-
         if (!codigo) {
           Swal.fire("Código vacío", "Por favor ingresa un código", "warning");
           return;
@@ -133,8 +111,7 @@
               method: "POST",
               headers: {
                 Accept: "application/json, text/javascript, */*; q=0.01",
-                "Content-Type":
-                  "application/x-www-form-urlencoded; charset=UTF-8",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                 "X-Requested-With": "XMLHttpRequest",
               },
               body: `codigo=${encodeURIComponent(codigo)}`,
@@ -153,19 +130,11 @@
               confirmButtonText: "OK",
             });
           } else {
-            Swal.fire(
-              "Producto no encontrado",
-              "No se encontró el código ingresado",
-              "error"
-            );
+            Swal.fire("Producto no encontrado", "No se encontró el código ingresado", "error");
           }
         } catch (error) {
           Swal.close();
-          Swal.fire(
-            "Error",
-            "Ocurrió un error al consultar el producto",
-            "error"
-          );
+          Swal.fire("Error", "Ocurrió un error al consultar el producto", "error");
         }
       });
 
@@ -174,96 +143,79 @@
         scannerActivo = true;
 
         if (!codeReader) {
-          codeReader = new ZXing.BrowserMultiFormatReader();
+          const hints = new Map();
+          hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, formatosSoportados);
+          codeReader = new ZXing.BrowserMultiFormatReader(hints);
         }
 
-        console.log("ZXing iniciado, buscando dispositivos de video...");
+        readerDiv.innerHTML = ""; // Limpia lo anterior
+        const videoElement = document.createElement("video");
+        videoElement.setAttribute("autoplay", true);
+        videoElement.setAttribute("muted", true);
+        videoElement.setAttribute("playsinline", true);
+        videoElement.style.width = "100%";
+        videoElement.style.height = "100%";
+        readerDiv.appendChild(videoElement);
 
         readerDiv.style.display = "block";
         ayudaTexto.style.display = "block";
 
-        codeReader
-          .listVideoInputDevices()
-          .then((videoInputDevices) => {
-            console.log("Dispositivos de video encontrados:", videoInputDevices);
-            if (videoInputDevices.length === 0) {
-              Swal.fire(
-                "No se encontró cámara",
-                "No hay cámaras disponibles",
-                "error"
-              );
-              scannerActivo = false;
-              readerDiv.style.display = "none";
-              ayudaTexto.style.display = "none";
-              return;
+        codeReader.listVideoInputDevices().then((devices) => {
+          if (devices.length === 0) {
+            Swal.fire("No se encontró cámara", "No hay cámaras disponibles", "error");
+            detenerScanner();
+            return;
+          }
+
+          let backCamera = devices.find((d) => /back|rear|environment/gi.test(d.label));
+          const deviceId = backCamera ? backCamera.deviceId : devices[0].deviceId;
+
+          codeReader.decodeFromVideoDevice(deviceId, videoElement, (result, err) => {
+            if (result) {
+              console.log("Código leído:", result.getText());
+              inputCodigo.value = result.getText();
+              detenerScanner();
+              form.requestSubmit();
             }
-
-            const firstDeviceId = videoInputDevices[0].deviceId;
-
-            codeReader.decodeFromVideoDevice(
-              firstDeviceId,
-              "reader",
-              (result, err) => {
-                if (result) {
-                  console.log("Código leído:", result.getText());
-                  inputCodigo.value = result.getText();
-                  codeReader.reset();
-                  readerDiv.style.display = "none";
-                  ayudaTexto.style.display = "none";
-                  scannerActivo = false;
-                  form.requestSubmit();
-                }
-                if (err && !(err instanceof ZXing.NotFoundException)) {
-                  console.error(err);
-                }
-              }
-            );
-          })
-          .catch((err) => {
-            console.error("Error listando dispositivos de video:", err);
-            Swal.fire("Error", "No se pudo acceder a la cámara", "error");
-            scannerActivo = false;
-            readerDiv.style.display = "none";
-            ayudaTexto.style.display = "none";
+            if (err && !(err instanceof ZXing.NotFoundException)) {
+              console.error(err);
+            }
           });
+        }).catch((err) => {
+          console.error("Error accediendo a cámara:", err);
+          Swal.fire("Error", "No se pudo acceder a la cámara", "error");
+          detenerScanner();
+        });
       }
 
-      // Registro del Service Worker
+      function detenerScanner() {
+        if (codeReader) codeReader.reset();
+        scannerActivo = false;
+        readerDiv.style.display = "none";
+        ayudaTexto.style.display = "none";
+      }
+
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("service-worker.js")
-            .then((reg) =>
-              console.log("✅ Service Worker registrado:", reg.scope)
-            )
+          navigator.serviceWorker.register("service-worker.js")
+            .then((reg) => console.log("✅ Service Worker registrado:", reg.scope))
             .catch((err) => console.error("❌ Error al registrar SW:", err));
         });
       }
 
-      // Manejo del evento beforeinstallprompt
       window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
         deferredPrompt = e;
-
-        if (installBtn) {
-          installBtn.classList.remove("d-none");
-        }
+        installBtn.classList.remove("d-none");
       });
 
-      installBtn.addEventListener("click", (e) => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === "accepted") {
-              console.log("✅ Instalación aceptada");
-            } else {
-              console.log("❌ Instalación rechazada");
-            }
-            deferredPrompt = null;
-            installBtn.classList.add("d-none");
-          });
-        }
+      installBtn.addEventListener("click", async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(outcome === "accepted" ? "App instalada" : "App no instalada");
+        deferredPrompt = null;
+        installBtn.classList.add("d-none");
       });
     </script>
   </body>
