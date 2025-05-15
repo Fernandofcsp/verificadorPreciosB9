@@ -21,10 +21,9 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- QR Code Scanner -->
-    <script
-      src="https://unpkg.com/html5-qrcode"
-      type="text/javascript"
-    ></script>
+    <!-- QuaggaJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+
     <!-- Favicon -->
     <link rel="icon" href="./images/bastonico.png" type="image/png" />
 
@@ -36,6 +35,10 @@
         border: 2px dashed #ccc;
         border-radius: 8px;
         position: relative;
+      }
+      #reader video {
+        width: 100%;
+        border-radius: 8px;
       }
 
       #ayuda {
@@ -89,7 +92,7 @@
         <div id="reader" style="display: none"></div>
         <p id="ayuda" style="display: none">
           📌 Mantén el código centrado, horizontal y bien iluminado para mejores
-          resultados. Activa la linterna si es posible.
+          resultados.
         </p>
       </div>
     </div>
@@ -168,125 +171,57 @@
       function iniciarScanner() {
         if (scannerActivo) return;
 
-        // Verificar permisos primero (importante en iOS)
-        navigator.mediaDevices
-          .getUserMedia({ video: true })
-          .then((stream) => {
-            // Cerrar inmediatamente el stream de prueba
-            stream.getTracks().forEach((track) => track.stop());
+        readerDiv.style.display = "block";
+        ayudaTexto.style.display = "block";
+        scannerActivo = true;
 
-            // Mostrar el reader y ayuda
-            scannerActivo = true;
-            readerDiv.style.display = "block";
-            ayudaTexto.style.display = "block";
-
-            const html5QrCode = new Html5Qrcode("reader");
-
-            const config = {
-              fps: 20,
-              qrbox: function (viewfinderWidth, viewfinderHeight) {
-                // Ajusta dinámicamente según viewport
-                const width = Math.min(300, viewfinderWidth * 0.9);
-                const height = 100;
-                return { width, height };
+        Quagga.init(
+          {
+            inputStream: {
+              type: "LiveStream",
+              target: readerDiv,
+              constraints: {
+                facingMode: "environment", // cámara trasera
               },
-              aspectRatio: 1.0,
-              disableFlip: true,
-              formatsToSupport: [
-                Html5QrcodeSupportedFormats.CODE_128,
-                Html5QrcodeSupportedFormats.EAN_13,
-                Html5QrcodeSupportedFormats.EAN_8,
-                Html5QrcodeSupportedFormats.UPC_A,
-                Html5QrcodeSupportedFormats.UPC_E,
-                Html5QrcodeSupportedFormats.CODE_39,
+            },
+            decoder: {
+              readers: [
+                "code_128_reader",
+                "ean_reader",
+                "ean_8_reader",
+                "code_39_reader",
+                "upc_reader",
+                "upc_e_reader",
               ],
-              experimentalFeatures: {
-                useBarCodeDetectorIfSupported: false,
-                highlightCodeOutline: true,
-                highlightScanRegion: true,
-                useEnhancedResolution: true,
-                useCustomCodeScanner: true,
-              },
-              rememberLastUsedCamera: false,
-              supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
-            };
-
-            html5QrCode
-              .start(
-                { facingMode: "environment" },
-                config,
-                (decodedText) => {
-                  console.log("Código leído:", decodedText);
-                  inputCodigo.value = decodedText;
-                  html5QrCode.stop().then(() => {
-                    readerDiv.style.display = "none";
-                    ayudaTexto.style.display = "none";
-                    scannerActivo = false;
-                    html5QrCode.clear();
-                    form.requestSubmit();
-                  });
-                },
-                (errorMessage) => {
-                  // Aquí puedes loguear errores si quieres
-                }
-              )
-              .catch((err) => {
-                scannerActivo = false;
-                Swal.fire(
-                  "Error de cámara",
-                  "No se pudo acceder a la cámara: " + err,
-                  "error"
-                );
-              });
-
-            // Forzar playsinline antes de que el video se use
-            const observer = new MutationObserver(() => {
-              const video = readerDiv.querySelector("video");
-              if (video) {
-                video.setAttribute("playsinline", "true");
-                video.setAttribute("autoplay", "false");
-                video.setAttribute("muted", "false"); // recomendable para iOS
-                video.setAttribute("controls", "false"); // Evitar controles en iOS
-                observer.disconnect();
-              }
-            });
-            observer.observe(readerDiv, { childList: true, subtree: true });
-          })
-          .catch((err) => {
-            console.error("Error iniciando scanner:", err);
-            Swal.fire(
-              "Error de cámara",
-              "No se pudo acceder a la cámara. Por favor, verifica los permisos en Configuración.",
-              "error"
-            );
-          });
-      }
-      function manejarErrorIOS(error) {
-        let message = "Error desconocido";
-
-        if (error.message.includes("NotAllowedError")) {
-          message =
-            "Permiso de cámara denegado. Ve a Configuración > Safari > Cámara";
-        } else if (error.message.includes("OverconstrainedError")) {
-          message =
-            "Configuración de cámara no soportada. Intenta reiniciar la app";
-        } else if (error.message.includes("NotReadableError")) {
-          message = "La cámara está en uso por otra app. Ciérrala y reintenta";
-        }
-
-        Swal.fire({
-          title: "Error en iPhone",
-          text: message,
-          icon: "error",
-          willClose: () => {
-            // Liberar recursos
-            if (window.lastScanner) {
-              window.lastScanner.stop().catch(() => {});
-            }
+            },
+            locate: true,
           },
+          function (err) {
+            if (err) {
+              console.error("Error al iniciar Quagga:", err);
+              Swal.fire("Error", "No se pudo iniciar el escáner", "error");
+              scannerActivo = false;
+              return;
+            }
+            Quagga.start();
+          }
+        );
+
+        Quagga.onDetected((data) => {
+          const codigo = data.codeResult.code;
+          console.log("Código leído:", codigo);
+          inputCodigo.value = codigo;
+
+          Quagga.stop();
+          Quagga.offDetected();
+          readerDiv.style.display = "none";
+          ayudaTexto.style.display = "none";
+          scannerActivo = false;
+
+          form.requestSubmit();
         });
       }
-      
+
       // Registro del Service Worker
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
