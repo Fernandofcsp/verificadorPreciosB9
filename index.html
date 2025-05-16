@@ -31,7 +31,7 @@
     <style>
       #reader {
         width: 100%;
-        max-width: 400px;
+        max-width: 200px;
         margin: 20px auto;
         border: 2px dashed #ccc;
         border-radius: 8px;
@@ -167,6 +167,7 @@
 
       function iniciarScanner() {
         if (scannerActivo) return;
+        
 
         navigator.mediaDevices
           .getUserMedia({ video: true })
@@ -178,7 +179,6 @@
             ayudaTexto.style.display = "block";
 
             const html5QrCode = new Html5Qrcode("reader");
-
             const config = {
               fps: 10,
               videoConstraints: {
