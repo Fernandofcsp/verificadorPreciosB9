@@ -31,7 +31,7 @@
     <style>
       #reader {
         width: 100%;
-        max-width: 200px;
+        max-width: 400px;
         margin: 20px auto;
         border: 2px dashed #ccc;
         border-radius: 8px;
@@ -176,6 +176,7 @@
 
             scannerActivo = true;
             readerDiv.style.display = "block";
+            document.getElementById("reader").scrollIntoView({ behavior: "smooth", block: "center" });
             ayudaTexto.style.display = "block";
 
             const html5QrCode = new Html5Qrcode("reader");
