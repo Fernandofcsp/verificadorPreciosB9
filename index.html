@@ -168,14 +168,11 @@
       function iniciarScanner() {
         if (scannerActivo) return;
 
-        // Verificar permisos primero (importante en iOS)
         navigator.mediaDevices
           .getUserMedia({ video: true })
           .then((stream) => {
-            // Cerrar inmediatamente el stream de prueba
             stream.getTracks().forEach((track) => track.stop());
 
-            // Mostrar el reader y ayuda
             scannerActivo = true;
             readerDiv.style.display = "block";
             ayudaTexto.style.display = "block";
@@ -188,11 +185,8 @@
                 width: 1920,
                 height: 1080,
                 facingMode: "environment",
-                focusMode: "continuous",
-                advanced: [{ zoom: 2.0 }],
               },
               qrbox: function (viewfinderWidth, viewfinderHeight) {
-                // Ajusta dinámicamente según viewport
                 const width = Math.min(300, viewfinderWidth * 0.9);
                 const height = 100;
                 return { width, height };
@@ -208,7 +202,7 @@
                 Html5QrcodeSupportedFormats.CODE_39,
               ],
               experimentalFeatures: {
-                useBarCodeDetectorIfSupported: false,
+                useBarCodeDetectorIfSupported: true,
               },
             };
 
@@ -227,10 +221,33 @@
                     form.requestSubmit();
                   });
                 },
-                (errorMessage) => {
-                  // Aquí puedes loguear errores si quieres
-                }
+                (errorMessage) => {}
               )
+              .then(() => {
+                // Aplicar constraints manualmente en iOS después de iniciar
+                setTimeout(() => {
+                  const video = readerDiv.querySelector("video");
+                  if (video) {
+                    const track = video.srcObject.getVideoTracks()[0];
+                    track
+                      .applyConstraints({
+                        focusMode: "continuous",
+                        advanced: [{ zoom: 2.0 }],
+                      })
+                      .then(() => {
+                        console.log(
+                          "✅ Constraints aplicadas después de iniciar"
+                        );
+                      })
+                      .catch((err) => {
+                        console.warn(
+                          "❌ No se pudieron aplicar constraints:",
+                          err
+                        );
+                      });
+                  }
+                }, 2000);
+              })
               .catch((err) => {
                 scannerActivo = false;
                 Swal.fire(
@@ -240,7 +257,6 @@
                 );
               });
 
-            // Forzar playsinline antes de que el video se use
             const observer = new MutationObserver(() => {
               const video = readerDiv.querySelector("video");
               if (video) {
