@@ -1,556 +1,586 @@
-const _0x1b717a = _0x39cf;
-(function (_0xa8ca64, _0x2a6ae3) {
-  const _0x150b4c = _0x39cf,
-    _0x39a6b5 = _0xa8ca64();
+const _0x403975 = _0x10dc;
+(function (_0x30a558, _0x2eaa92) {
+  const _0x554d3a = _0x10dc,
+    _0x33a46f = _0x30a558();
   while (!![]) {
     try {
-      const _0x2cffb0 =
-        -parseInt(_0x150b4c(0x107)) / 0x1 +
-        parseInt(_0x150b4c(0xa2)) / 0x2 +
-        (parseInt(_0x150b4c(0xb0)) / 0x3) * (parseInt(_0x150b4c(0xa4)) / 0x4) +
-        -parseInt(_0x150b4c(0x86)) / 0x5 +
-        (-parseInt(_0x150b4c(0xad)) / 0x6) * (parseInt(_0x150b4c(0xff)) / 0x7) +
-        -parseInt(_0x150b4c(0x8a)) / 0x8 +
-        parseInt(_0x150b4c(0x9e)) / 0x9;
-      if (_0x2cffb0 === _0x2a6ae3) break;
-      else _0x39a6b5["push"](_0x39a6b5["shift"]());
-    } catch (_0x2e8b88) {
-      _0x39a6b5["push"](_0x39a6b5["shift"]());
+      const _0x4f30bf =
+        -parseInt(_0x554d3a(0x14f)) / 0x1 +
+        parseInt(_0x554d3a(0x151)) / 0x2 +
+        parseInt(_0x554d3a(0x103)) / 0x3 +
+        (-parseInt(_0x554d3a(0xc3)) / 0x4) *
+          (-parseInt(_0x554d3a(0x119)) / 0x5) +
+        (-parseInt(_0x554d3a(0x126)) / 0x6) *
+          (-parseInt(_0x554d3a(0x120)) / 0x7) +
+        -parseInt(_0x554d3a(0xbf)) / 0x8 +
+        (parseInt(_0x554d3a(0xc8)) / 0x9) * (-parseInt(_0x554d3a(0x145)) / 0xa);
+      if (_0x4f30bf === _0x2eaa92) break;
+      else _0x33a46f["push"](_0x33a46f["shift"]());
+    } catch (_0xeb0489) {
+      _0x33a46f["push"](_0x33a46f["shift"]());
     }
   }
-})(_0x5333, 0xc0261);
-const form = document[_0x1b717a(0xe6)](_0x1b717a(0xf6)),
-  inputCodigo = document[_0x1b717a(0xe6)](_0x1b717a(0xdf)),
-  readerDiv = document["getElementById"](_0x1b717a(0x87)),
-  ayudaTexto = document["getElementById"](_0x1b717a(0xdc)),
-  installBtn = document[_0x1b717a(0xe6)]("installBtn");
+})(_0x7a8f, 0xbcce3);
+const form = document[_0x403975(0xe9)](_0x403975(0x10f)),
+  inputCodigo = document[_0x403975(0xe9)]("codigo"),
+  readerDiv = document[_0x403975(0xe9)](_0x403975(0xdf)),
+  ayudaTexto = document["getElementById"](_0x403975(0xc0)),
+  installBtn = document[_0x403975(0xe9)](_0x403975(0x101));
 let scannerActivo = ![],
   deferredPrompt;
-function setCookie(_0x127900, _0x19885c, _0x2f2446) {
-  const _0x45a927 = _0x1b717a,
-    _0x118e8b = new Date(
-      Date[_0x45a927(0xe8)]() + _0x2f2446 * 0x18 * 0x3c * 0x3c * 0x3e8
-    )[_0x45a927(0xc8)]();
+function setCookie(_0x21ae80, _0x4a9bb1, _0x26dca9) {
+  const _0x45ee9b = _0x403975,
+    _0x4c27ad = new Date(
+      Date[_0x45ee9b(0x123)]() + _0x26dca9 * 0x18 * 0x3c * 0x3c * 0x3e8
+    )[_0x45ee9b(0x128)]();
   document["cookie"] =
-    _0x127900 +
+    _0x21ae80 +
     "=" +
-    encodeURIComponent(_0x19885c) +
-    ";\x20expires=" +
-    _0x118e8b +
-    _0x45a927(0x93);
+    encodeURIComponent(_0x4a9bb1) +
+    _0x45ee9b(0xd4) +
+    _0x4c27ad +
+    _0x45ee9b(0x11d);
 }
-function getCookie(_0x1f87b1) {
-  const _0x38adda = _0x1b717a,
-    _0x12568e = ";\x20" + document[_0x38adda(0xce)],
-    _0x7600ac = _0x12568e[_0x38adda(0xbf)](";\x20" + _0x1f87b1 + "=");
-  if (_0x7600ac[_0x38adda(0xb1)] === 0x2)
+function getCookie(_0x15c3ba) {
+  const _0x220cc6 = _0x403975,
+    _0x2048dc = ";\x20" + document[_0x220cc6(0xde)],
+    _0x217ebe = _0x2048dc[_0x220cc6(0x129)](";\x20" + _0x15c3ba + "=");
+  if (_0x217ebe["length"] === 0x2)
     return decodeURIComponent(
-      _0x7600ac[_0x38adda(0xdb)]()[_0x38adda(0xbf)](";")[_0x38adda(0xc2)]()
+      _0x217ebe[_0x220cc6(0x130)]()[_0x220cc6(0x129)](";")[_0x220cc6(0x12a)]()
     );
   return null;
 }
-const historialDiv = document[_0x1b717a(0xe6)](_0x1b717a(0xd9)),
-  resultadoDiv = document[_0x1b717a(0xe6)](_0x1b717a(0x10c));
+function _0x10dc(_0x1f6d8a, _0x89fe9f) {
+  const _0x7a8f69 = _0x7a8f();
+  return (
+    (_0x10dc = function (_0x10dca7, _0x543ac3) {
+      _0x10dca7 = _0x10dca7 - 0xbb;
+      let _0x4bcacd = _0x7a8f69[_0x10dca7];
+      return _0x4bcacd;
+    }),
+    _0x10dc(_0x1f6d8a, _0x89fe9f)
+  );
+}
+const historialDiv = document[_0x403975(0xe9)](_0x403975(0xc2)),
+  resultadoDiv = document[_0x403975(0xe9)](_0x403975(0x143));
 let historial = [];
-const historialCookie = getCookie(_0x1b717a(0xd9));
+const historialCookie = getCookie(_0x403975(0xc2));
 if (historialCookie)
   try {
-    historial = JSON[_0x1b717a(0x9a)](historialCookie);
-  } catch (_0x2ce575) {
+    historial = JSON[_0x403975(0x13a)](historialCookie);
+  } catch (_0x5ae7f6) {
     historial = [];
   }
 function renderClearButton() {
-  return "\x0a\x20\x20\x20\x20<div\x20class=\x22d-flex\x20align-items-center\x20justify-content-end\x20h-100\x22>\x0a\x20\x20\x20\x20\x20\x20<button\x20id=\x22limpiarHistorialBtn\x22\x20class=\x22btn\x20btn-danger\x20btn-sm\x22>Limpiar\x20historial</button>\x0a\x20\x20\x20\x20</div>\x0a\x20\x20";
+  const _0x832238 = _0x403975;
+  return _0x832238(0x115);
 }
 function renderHistorial() {
-  const _0x238e57 = _0x1b717a;
-  (historialDiv[_0x238e57(0x10b)] =
-    _0x238e57(0xb2) +
-    (historial[_0x238e57(0xb1)] > 0x0 ? renderClearButton() : "") +
-    _0x238e57(0xe0) +
-    (historial[_0x238e57(0xb1)] === 0x0
-      ? "<p\x20class=\x22text-muted\x20mb-0\x22>No\x20hay\x20productos\x20escaneados.</p>"
-      : _0x238e57(0x104) +
-        historial[_0x238e57(0xd0)]((_0xd11727) => {
-          const _0x56113d = _0x238e57,
-            _0x44e90c =
-              _0xd11727[_0x56113d(0x7f)] || _0xd11727["SKU"] || _0x56113d(0xfe),
-            _0x20fc3d = _0xd11727[_0x56113d(0xe5)]
-              ? new Date(_0xd11727["FECHA_ESCANEO"])[_0x56113d(0x8b)]()
-              : "Fecha\x20desconocida";
+  const _0x2decc0 = _0x403975;
+  (historialDiv[_0x2decc0(0xfd)] =
+    _0x2decc0(0xcc) +
+    (historial[_0x2decc0(0xc7)] > 0x0 ? renderClearButton() : "") +
+    _0x2decc0(0xfa) +
+    (historial["length"] === 0x0
+      ? _0x2decc0(0xda)
+      : _0x2decc0(0xef) +
+        historial[_0x2decc0(0x13b)]((_0x492677) => {
+          const _0x2b2aad = _0x2decc0,
+            _0x28395d =
+              _0x492677[_0x2b2aad(0x102)] ||
+              _0x492677[_0x2b2aad(0xce)] ||
+              _0x2b2aad(0x13c),
+            _0x1f456f = _0x492677["FECHA_ESCANEO"]
+              ? new Date(_0x492677[_0x2b2aad(0x11a)])[_0x2b2aad(0x106)]()
+              : _0x2b2aad(0x140);
           return (
-            _0x56113d(0xbe) +
-            _0xd11727[_0x56113d(0xa7)] +
-            _0x56113d(0xd3) +
-            _0x44e90c +
-            _0x56113d(0x7c) +
-            _0xd11727[_0x56113d(0xf7)] +
-            "</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22text-muted\x20small\x22>Escaneado:\x20" +
-            _0x20fc3d +
-            _0x56113d(0xd7)
+            _0x2b2aad(0xd3) +
+            _0x492677[_0x2b2aad(0xca)] +
+            _0x2b2aad(0x14d) +
+            _0x28395d +
+            _0x2b2aad(0x137) +
+            _0x492677[_0x2b2aad(0xd6)] +
+            _0x2b2aad(0x11f) +
+            _0x1f456f +
+            _0x2b2aad(0x11e)
           );
-        })[_0x238e57(0xb4)]("") +
-        _0x238e57(0x92)) +
-    _0x238e57(0xbc)),
-    setCookie(_0x238e57(0xd9), JSON[_0x238e57(0xea)](historial), 0x1e);
-  const _0x18a5b4 = document["getElementById"](_0x238e57(0x91));
-  _0x18a5b4 &&
-    _0x18a5b4[_0x238e57(0x10f)](_0x238e57(0xf9), () => {
-      const _0x196848 = _0x238e57;
+        })["join"]("") +
+        "\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</ul>") +
+    _0x2decc0(0xcd)),
+    setCookie(_0x2decc0(0xc2), JSON[_0x2decc0(0x125)](historial), 0x1e);
+  const _0x5d1553 = document[_0x2decc0(0xe9)](_0x2decc0(0xf1));
+  _0x5d1553 &&
+    _0x5d1553[_0x2decc0(0xe5)](_0x2decc0(0xd5), () => {
+      const _0x364005 = _0x2decc0;
       (historial = []),
-        setCookie(_0x196848(0xd9), JSON["stringify"](historial), 0x1e),
+        setCookie(_0x364005(0xc2), JSON["stringify"](historial), 0x1e),
         renderHistorial();
     });
 }
-inputCodigo["addEventListener"]("keydown", function (_0x14a63c) {
-  const _0x434fb0 = _0x1b717a;
-  _0x14a63c[_0x434fb0(0x96)] === "Enter" &&
-    (_0x14a63c["preventDefault"](), form["requestSubmit"]());
+inputCodigo[_0x403975(0xe5)]("keydown", function (_0x2d0918) {
+  const _0x57ef21 = _0x403975;
+  _0x2d0918[_0x57ef21(0xf0)] === _0x57ef21(0xfe) &&
+    (_0x2d0918[_0x57ef21(0x150)](), form["requestSubmit"]());
 }),
-  form["addEventListener"](_0x1b717a(0xf3), async (_0x5d92b6) => {
-    const _0x1dcbcc = _0x1b717a;
-    _0x5d92b6["preventDefault"]();
-    let _0xd69bbe = inputCodigo[_0x1dcbcc(0x84)]
-      [_0x1dcbcc(0x90)]()
-      ["replace"](/\s+$/, "");
-    (inputCodigo[_0x1dcbcc(0x84)] = _0xd69bbe),
-      (resultadoDiv[_0x1dcbcc(0x10b)] = "");
-    if (!_0xd69bbe) {
-      (resultadoDiv[_0x1dcbcc(0x10b)] = _0x1dcbcc(0xf2)),
+  form[_0x403975(0xe5)](_0x403975(0xc1), async (_0x438258) => {
+    const _0x43cbff = _0x403975;
+    _0x438258["preventDefault"]();
+    let _0x38a4a9 = inputCodigo[_0x43cbff(0xdb)]
+      [_0x43cbff(0x148)]()
+      [_0x43cbff(0x14e)](/\s+$/, "");
+    (inputCodigo[_0x43cbff(0xdb)] = _0x38a4a9),
+      (resultadoDiv[_0x43cbff(0xfd)] = "");
+    if (!_0x38a4a9) {
+      (resultadoDiv[_0x43cbff(0xfd)] =
+        "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>Por\x20favor\x20ingresa\x20un\x20código</div>"),
         renderHistorial(),
-        inputCodigo[_0x1dcbcc(0xe2)]();
+        inputCodigo[_0x43cbff(0x12d)]();
       return;
     }
-    (inputCodigo[_0x1dcbcc(0xaa)] = ""),
-      (resultadoDiv[_0x1dcbcc(0x10b)] = _0x1dcbcc(0xd6));
+    (inputCodigo[_0x43cbff(0xd8)] = ""),
+      (resultadoDiv["innerHTML"] = _0x43cbff(0x14a));
     try {
-      const _0xfb665a = await fetch(_0x1dcbcc(0xcd), {
-          method: _0x1dcbcc(0xb6),
-          headers: {
-            Accept: _0x1dcbcc(0x82),
-            "Content-Type": _0x1dcbcc(0xf8),
-            "X-Requested-With": _0x1dcbcc(0xee),
-          },
-          body: _0x1dcbcc(0xb9) + _0xd69bbe,
-        }),
-        _0x62331 = await _0xfb665a[_0x1dcbcc(0x99)]();
-      if (_0x62331?.[_0x1dcbcc(0xc9)]?.[_0x1dcbcc(0xa7)]) {
-        const _0x79aa92 = _0x62331["DATOS"];
-        (_0x79aa92[_0x1dcbcc(0x7f)] =
-          _0x79aa92[_0x1dcbcc(0x7f)] ||
-          _0x79aa92[_0x1dcbcc(0x100)] ||
-          _0xd69bbe),
-          (_0x79aa92["FECHA_ESCANEO"] = new Date()[_0x1dcbcc(0xfb)]()),
-          historial[_0x1dcbcc(0xc7)](_0x79aa92),
-          (resultadoDiv[_0x1dcbcc(0x10b)] =
-            _0x1dcbcc(0x8e) +
-            _0x79aa92[_0x1dcbcc(0xa7)] +
+      const _0x2acdea = await fetch(
+          "https://dvncloud.com/instancias/theback9golf/index.php?controller=theback9golf:consultar_precio&DVNUSERID=45&DVNSUCURSAL=1",
+          {
+            method: _0x43cbff(0x122),
+            headers: {
+              Accept: _0x43cbff(0x113),
+              "Content-Type": _0x43cbff(0xd2),
+              "X-Requested-With": _0x43cbff(0xfb),
+            },
+            body: "codigo=" + _0x38a4a9,
+          }
+        ),
+        _0x3fe590 = await _0x2acdea[_0x43cbff(0x10b)]();
+      if (_0x3fe590?.[_0x43cbff(0x146)]?.[_0x43cbff(0xca)]) {
+        const _0x347b60 = _0x3fe590[_0x43cbff(0x146)];
+        (_0x347b60[_0x43cbff(0x102)] =
+          _0x347b60[_0x43cbff(0x102)] ||
+          _0x347b60[_0x43cbff(0xce)] ||
+          _0x38a4a9),
+          (_0x347b60["FECHA_ESCANEO"] = new Date()[_0x43cbff(0x100)]()),
+          historial[_0x43cbff(0x139)](_0x347b60),
+          (resultadoDiv[_0x43cbff(0xfd)] =
+            "\x0a\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22alert\x20alert-success\x22\x20role=\x22alert\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<strong>Producto\x20encontrado:</strong>\x20" +
+            _0x347b60[_0x43cbff(0xca)] +
             "<br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22text-secondary\x22>SKU:\x20<strong>" +
-            _0x79aa92[_0x1dcbcc(0x7f)] +
-            "</strong></span><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22fw-bold\x22>Precio:\x20$" +
-            _0x79aa92[_0x1dcbcc(0xf7)] +
-            _0x1dcbcc(0xd8) +
-            new Date(_0x79aa92[_0x1dcbcc(0xe5)])[_0x1dcbcc(0x8b)]() +
-            _0x1dcbcc(0x98)),
-          (inputCodigo[_0x1dcbcc(0x84)] = ""),
-          inputCodigo["focus"]();
+            _0x347b60[_0x43cbff(0x102)] +
+            _0x43cbff(0x114) +
+            _0x347b60["PRECIO"] +
+            _0x43cbff(0x107) +
+            new Date(_0x347b60[_0x43cbff(0x11a)])["toLocaleString"]() +
+            _0x43cbff(0xed)),
+          (inputCodigo[_0x43cbff(0xdb)] = ""),
+          inputCodigo[_0x43cbff(0x12d)]();
       } else
-        (resultadoDiv["innerHTML"] = _0x1dcbcc(0xc6)),
-          (inputCodigo["value"] = ""),
-          inputCodigo["focus"](),
+        (resultadoDiv[_0x43cbff(0xfd)] = _0x43cbff(0xdc)),
+          (inputCodigo[_0x43cbff(0xdb)] = ""),
+          inputCodigo[_0x43cbff(0x12d)](),
           setTimeout(() => {
-            const _0x31d748 = _0x1dcbcc;
-            resultadoDiv[_0x31d748(0x10b)] = "";
+            const _0x13eb1d = _0x43cbff;
+            resultadoDiv[_0x13eb1d(0xfd)] = "";
           }, 0x1388);
       renderHistorial();
-    } catch (_0x4c0f01) {
-      (resultadoDiv[_0x1dcbcc(0x10b)] = _0x1dcbcc(0xe9)),
-        inputCodigo[_0x1dcbcc(0xe2)](),
+    } catch (_0x400ca3) {
+      (resultadoDiv["innerHTML"] = _0x43cbff(0xf2)),
+        inputCodigo[_0x43cbff(0x12d)](),
         renderHistorial();
     }
   });
 function iniciarScanner() {
-  const _0x2aaf8c = _0x1b717a;
+  const _0x107392 = _0x403975;
   if (scannerActivo) return;
-  navigator[_0x2aaf8c(0xf1)]
-    [_0x2aaf8c(0xa3)]({ video: !![] })
-    [_0x2aaf8c(0x8c)]((_0x52c313) => {
-      const _0x4b97a1 = _0x2aaf8c;
-      _0x52c313[_0x4b97a1(0xcb)]()[_0x4b97a1(0xfd)]((_0x18baf5) =>
-        _0x18baf5["stop"]()
+  navigator[_0x107392(0x121)]
+    [_0x107392(0xd9)]({ video: !![] })
+    [_0x107392(0x142)]((_0x50515d) => {
+      const _0x50e73 = _0x107392;
+      _0x50515d[_0x50e73(0xe6)]()[_0x50e73(0x12b)]((_0x1f6ac1) =>
+        _0x1f6ac1[_0x50e73(0x104)]()
       ),
         (scannerActivo = !![]),
-        (readerDiv[_0x4b97a1(0xcf)][_0x4b97a1(0x9c)] = _0x4b97a1(0xb7)),
-        document[_0x4b97a1(0xe6)](_0x4b97a1(0x87))[_0x4b97a1(0x102)]({
-          behavior: _0x4b97a1(0x7e),
-          block: _0x4b97a1(0xc0),
+        (readerDiv[_0x50e73(0x12c)][_0x50e73(0x116)] = _0x50e73(0x134)),
+        document["getElementById"](_0x50e73(0xdf))[_0x50e73(0x14c)]({
+          behavior: _0x50e73(0x144),
+          block: "center",
         }),
-        (ayudaTexto["style"]["display"] = _0x4b97a1(0xb7));
-      const _0x4fc4ff = new Html5Qrcode(_0x4b97a1(0x87)),
-        _0x403e43 = {
+        (ayudaTexto[_0x50e73(0x12c)][_0x50e73(0x116)] = _0x50e73(0x134));
+      const _0x28d9c4 = new Html5Qrcode("reader"),
+        _0x381b41 = {
           fps: 0xa,
           videoConstraints: {
             width: { min: 0x190, ideal: 0x780 },
             height: { min: 0x190, ideal: 0x438 },
-            facingMode: _0x4b97a1(0x7b),
+            facingMode: "environment",
             advanced: [{ zoom: 0x2 }],
           },
-          qrbox: function (_0x1eb910, _0x3640d8) {
-            const _0x58c74f = _0x4b97a1,
-              _0x1fa2f9 = Math[_0x58c74f(0x106)](0x12c, _0x1eb910 * 0.9),
-              _0x542845 = 0x64;
-            return { width: _0x1fa2f9, height: _0x542845 };
+          qrbox: function (_0x4f7ea3, _0x30e4d1) {
+            const _0x17a7ac = Math["min"](0x12c, _0x4f7ea3 * 0.9),
+              _0x3855d2 = 0x64;
+            return { width: _0x17a7ac, height: _0x3855d2 };
           },
           rememberLastUsedCamera: !![],
           aspectRatio: 0x1,
           formatsToSupport: [
-            Html5QrcodeSupportedFormats[_0x4b97a1(0xc4)],
-            Html5QrcodeSupportedFormats[_0x4b97a1(0xf5)],
-            Html5QrcodeSupportedFormats[_0x4b97a1(0xb5)],
-            Html5QrcodeSupportedFormats[_0x4b97a1(0xfc)],
-            Html5QrcodeSupportedFormats[_0x4b97a1(0x103)],
-            Html5QrcodeSupportedFormats[_0x4b97a1(0x81)],
+            Html5QrcodeSupportedFormats[_0x50e73(0x13d)],
+            Html5QrcodeSupportedFormats["EAN_13"],
+            Html5QrcodeSupportedFormats[_0x50e73(0x138)],
+            Html5QrcodeSupportedFormats[_0x50e73(0xf4)],
+            Html5QrcodeSupportedFormats[_0x50e73(0xf3)],
+            Html5QrcodeSupportedFormats[_0x50e73(0x149)],
           ],
           experimentalFeatures: { useBarCodeDetectorIfSupported: !![] },
         };
-      _0x4fc4ff[_0x4b97a1(0x9d)](
-        { facingMode: "environment" },
-        _0x403e43,
-        (_0x27dcbc) => {
-          const _0xf2e747 = _0x4b97a1;
-          (inputCodigo[_0xf2e747(0x84)] = _0x27dcbc[_0xf2e747(0x90)]()[
-            _0xf2e747(0xae)
-          ](/\s+$/, "")),
-            _0x4fc4ff[_0xf2e747(0x8f)]()[_0xf2e747(0x8c)](() => {
-              const _0x34c895 = _0xf2e747;
-              (readerDiv[_0x34c895(0xcf)][_0x34c895(0x9c)] = _0x34c895(0xa6)),
-                (ayudaTexto["style"][_0x34c895(0x9c)] = _0x34c895(0xa6)),
+      _0x28d9c4["start"](
+        { facingMode: _0x50e73(0xe7) },
+        _0x381b41,
+        (_0x3af6c8) => {
+          const _0x486e9d = _0x50e73;
+          (inputCodigo[_0x486e9d(0xdb)] = _0x3af6c8["trim"]()[_0x486e9d(0x14e)](
+            /\s+$/,
+            ""
+          )),
+            _0x28d9c4["stop"]()["then"](() => {
+              const _0x508713 = _0x486e9d;
+              (readerDiv[_0x508713(0x12c)][_0x508713(0x116)] =
+                _0x508713(0x11c)),
+                (ayudaTexto[_0x508713(0x12c)][_0x508713(0x116)] =
+                  _0x508713(0x11c)),
                 (scannerActivo = ![]),
-                _0x4fc4ff[_0x34c895(0xde)](),
+                _0x28d9c4[_0x508713(0x109)](),
                 form["requestSubmit"]();
             });
         },
-        (_0x32e933) => {}
+        (_0x13ba19) => {}
       )
         ["then"](() => {
           setTimeout(() => {
-            const _0x454d87 = _0x39cf,
-              _0x340520 = readerDiv[_0x454d87(0xe4)]("video");
-            if (_0x340520) {
-              const _0x4fc1ee =
-                _0x340520[_0x454d87(0x97)]["getVideoTracks"]()[0x0];
-              _0x4fc1ee[_0x454d87(0x101)]({
-                focusMode: _0x454d87(0xb8),
+            const _0xff4320 = _0x10dc,
+              _0x4a4e19 = readerDiv[_0xff4320(0xd1)](_0xff4320(0xf7));
+            if (_0x4a4e19) {
+              const _0x1b9aef =
+                _0x4a4e19[_0xff4320(0xf8)][_0xff4320(0x127)]()[0x0];
+              _0x1b9aef[_0xff4320(0x10c)]({
+                focusMode: "continuous",
                 advanced: [{ zoom: 0x2 }],
               })
-                ["then"](() => {})
-                [_0x454d87(0x9f)]((_0x1df8f8) => {});
+                [_0xff4320(0x142)](() => {})
+                [_0xff4320(0xe0)]((_0x5150c2) => {});
             }
           }, 0x7d0);
         })
-        ["catch"]((_0x44b3bb) => {
-          const _0x465610 = _0x4b97a1;
+        [_0x50e73(0xe0)]((_0x48be95) => {
+          const _0x5c42dc = _0x50e73;
           (scannerActivo = ![]),
-            (resultadoDiv[_0x465610(0x10b)] =
-              "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>No\x20se\x20pudo\x20acceder\x20a\x20la\x20cámara:\x20" +
-              _0x44b3bb +
-              _0x465610(0x7d)),
+            (resultadoDiv[_0x5c42dc(0xfd)] =
+              _0x5c42dc(0xfc) + _0x48be95 + "</div>"),
             renderHistorial();
         });
-      const _0x5269eb = new MutationObserver(() => {
-        const _0x39a215 = _0x4b97a1,
-          _0x381eb6 = readerDiv["querySelector"](_0x39a215(0xfa));
-        _0x381eb6 &&
-          (_0x381eb6[_0x39a215(0x85)]("playsinline", ""),
-          _0x381eb6[_0x39a215(0x85)]("autoplay", ""),
-          _0x381eb6[_0x39a215(0x85)]("muted", ""),
-          _0x5269eb["disconnect"]());
+      const _0x131e50 = new MutationObserver(() => {
+        const _0x51cb66 = _0x50e73,
+          _0x3a796c = readerDiv[_0x51cb66(0xd1)](_0x51cb66(0xf7));
+        _0x3a796c &&
+          (_0x3a796c[_0x51cb66(0xd0)](_0x51cb66(0xe2), ""),
+          _0x3a796c[_0x51cb66(0xd0)](_0x51cb66(0x11b), ""),
+          _0x3a796c[_0x51cb66(0xd0)](_0x51cb66(0xeb), ""),
+          _0x131e50[_0x51cb66(0xc4)]());
       });
-      _0x5269eb["observe"](readerDiv, { childList: !![], subtree: !![] });
+      _0x131e50["observe"](readerDiv, { childList: !![], subtree: !![] });
     })
-    ["catch"]((_0x4c3fd7) => {
-      const _0x350a75 = _0x2aaf8c;
-      (resultadoDiv[_0x350a75(0x10b)] = _0x350a75(0x10e)), renderHistorial();
+    ["catch"]((_0x3e3ebf) => {
+      const _0x46efd5 = _0x107392;
+      (resultadoDiv["innerHTML"] = _0x46efd5(0x105)), renderHistorial();
     });
 }
-function _0x5333() {
-  const _0x260146 = [
-    "reader",
-    "outcome",
-    "register",
-    "7662096ksRbjf",
-    "toLocaleString",
-    "then",
-    "serviceWorker",
-    "\x0a\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22alert\x20alert-success\x22\x20role=\x22alert\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<strong>Producto\x20encontrado:</strong>\x20",
-    "stop",
-    "trim",
-    "limpiarHistorialBtn",
-    "\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</ul>",
-    ";\x20path=/",
-    "❌\x20Instalación\x20rechazada",
-    "load",
-    "key",
-    "srcObject",
-    "</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20",
-    "json",
-    "parse",
-    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>No\x20se\x20detectó\x20código,\x20recorta\x20la\x20imagen\x20o\x20prueba\x20con\x20otra</div>",
-    "display",
-    "start",
-    "30971178GyhTMm",
-    "catch",
-    "service-worker.js",
-    "❌\x20Error\x20al\x20registrar\x20SW:",
-    "1937374fysRrm",
-    "getUserMedia",
-    "64bgPoAe",
-    "canvas",
-    "none",
-    "NOMBRE",
-    "onload",
-    "src",
-    "placeholder",
-    "codeResult",
-    "ean_8_reader",
-    "709338Qhvxgy",
-    "replace",
-    "add",
-    "158421TooonP",
-    "length",
-    "\x0a\x20\x20\x20\x20<div\x20class=\x22card\x20shadow-sm\x20mb-3\x20w-100\x22>\x0a\x20\x20\x20\x20\x20\x20<div\x20class=\x22card-header\x20bg-primary\x20text-white\x20d-flex\x20flex-column\x20flex-md-row\x20justify-content-between\x20align-items-center\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<strong>Historial\x20de\x20productos\x20escaneados:</strong>\x0a\x20\x20\x20\x20\x20\x20\x20\x20",
-    "files",
-    "join",
-    "EAN_8",
-    "POST",
+function _0x7a8f() {
+  const _0xa154f1 = [
+    "prompt",
+    "getImageData",
+    "location",
     "block",
-    "continuous",
-    "codigo=",
-    "code",
-    "d-none",
-    "\x0a\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20</div>\x0a\x20\x20",
-    "✅\x20Service\x20Worker\x20registrado:",
-    "<li\x20class=\x22list-group-item\x20d-flex\x20flex-column\x20flex-md-row\x20justify-content-between\x20align-items-md-center\x20gap-2\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span><strong>",
-    "split",
-    "center",
-    "ean_reader",
-    "shift",
+    "✅\x20Instalación\x20aceptada",
     "readAsDataURL",
-    "CODE_128",
-    "userChoice",
-    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>No\x20se\x20encontró\x20el\x20código\x20ingresado</div>",
+    "</strong></span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22badge\x20bg-success\x20fs-6\x20mb-1\x20mb-md-0\x20ms-md-2\x22>Precio:\x20$",
+    "EAN_8",
     "unshift",
-    "toUTCString",
-    "DATOS",
-    "classList",
-    "getTracks",
-    "error",
-    "https://dvncloud.com/instancias/theback9golf/index.php?controller=theback9golf:consultar_precio&DVNUSERID=45&DVNSUCURSAL=1",
-    "cookie",
-    "style",
+    "parse",
     "map",
-    "width",
-    "height",
-    "</strong></span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22small\x20text-secondary\x22>SKU:\x20<strong>",
-    "upc_e_reader",
-    "drawImage",
+    "SKU\x20desconocido",
+    "CODE_128",
+    "d-none",
+    "controllerchange",
+    "Fecha\x20desconocida",
+    "remove",
+    "then",
+    "resultado",
+    "smooth",
+    "30nqbUWN",
+    "DATOS",
+    "load",
+    "trim",
+    "CODE_39",
     "<div\x20class=\x22alert\x20alert-info\x22\x20role=\x22alert\x22>Buscando\x20producto...</div>",
-    "</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</li>",
-    "</span><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22text-muted\x20small\x22>Escaneado:\x20",
-    "historial",
-    "createElement",
-    "pop",
+    "toDataURL",
+    "scrollIntoView",
+    "</strong></span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22small\x20text-secondary\x20ms-md-2\x22>SKU:\x20<strong>",
+    "replace",
+    "565285JlQyQO",
+    "preventDefault",
+    "2605786uGCJSu",
+    "onload",
+    "service-worker.js",
+    "upc_e_reader",
+    "src",
+    "❌\x20Error\x20al\x20registrar\x20SW:",
+    "reload",
+    "3106208IKRboj",
     "ayuda",
+    "submit",
+    "historial",
+    "372mgvzmP",
+    "disconnect",
+    "update",
+    "decodeSingle",
+    "length",
+    "9784647AhlgyX",
+    "add",
+    "NOMBRE",
+    "width",
+    "\x0a\x20\x20\x20\x20<div\x20class=\x22card\x20shadow-sm\x20mb-3\x20w-100\x22>\x0a\x20\x20\x20\x20\x20\x20<div\x20class=\x22card-header\x20bg-primary\x20text-white\x20d-flex\x20flex-column\x20flex-md-row\x20justify-content-between\x20align-items-center\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<strong>Historial\x20de\x20productos\x20escaneados:</strong>\x0a\x20\x20\x20\x20\x20\x20\x20\x20",
+    "\x0a\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20</div>\x0a\x20\x20",
+    "SKU",
+    "❌\x20Instalación\x20rechazada",
+    "setAttribute",
+    "querySelector",
+    "application/x-www-form-urlencoded;\x20charset=UTF-8",
+    "<li\x20class=\x22list-group-item\x20d-flex\x20flex-column\x20flex-md-row\x20justify-content-between\x20align-items-md-center\x20gap-2\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span><strong>",
+    ";\x20expires=",
+    "click",
+    "PRECIO",
+    "accepted",
+    "placeholder",
+    "getUserMedia",
+    "<p\x20class=\x22text-muted\x20mb-0\x22>No\x20hay\x20productos\x20escaneados.</p>",
+    "value",
+    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>No\x20se\x20encontró\x20el\x20código\x20ingresado</div>",
+    "change",
+    "cookie",
+    "reader",
+    "catch",
+    "getRegistrations",
+    "playsinline",
+    "error",
+    "files",
+    "addEventListener",
+    "getTracks",
+    "environment",
+    "userChoice",
+    "getElementById",
+    "createElement",
+    "muted",
+    "height",
+    "</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20",
+    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>No\x20se\x20detectó\x20código,\x20recorta\x20la\x20imagen\x20o\x20prueba\x20con\x20otra</div>",
+    "<ul\x20class=\x22list-group\x20list-group-flush\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20",
+    "key",
+    "limpiarHistorialBtn",
+    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>Ocurrió\x20un\x20error\x20al\x20consultar\x20el\x20producto</div>",
+    "UPC_E",
+    "UPC_A",
+    "register",
+    "classList",
+    "video",
+    "srcObject",
+    "upc_reader",
+    "\x0a\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20<div\x20class=\x22card-body\x20p-2\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20",
+    "XMLHttpRequest",
+    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>No\x20se\x20pudo\x20acceder\x20a\x20la\x20cámara:\x20",
+    "innerHTML",
+    "Enter",
+    "code",
+    "toISOString",
+    "installBtn",
+    "CODIGO",
+    "1965726lNkYVN",
+    "stop",
+    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>Por\x20favor\x20autoriza\x20el\x20acceso\x20a\x20la\x20cámara</div>",
+    "toLocaleString",
+    "</span><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22text-muted\x20small\x22>Escaneado:\x20",
     "code_39_reader",
     "clear",
-    "codigo",
-    "\x0a\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20<div\x20class=\x22card-body\x20p-2\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20",
-    "putImageData",
-    "focus",
-    "result",
-    "querySelector",
-    "FECHA_ESCANEO",
-    "getElementById",
-    "remove",
-    "now",
-    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>Ocurrió\x20un\x20error\x20al\x20consultar\x20el\x20producto</div>",
-    "stringify",
-    "prompt",
-    "requestSubmit",
-    "getImageData",
-    "XMLHttpRequest",
-    "fileInput",
-    "decodeSingle",
-    "mediaDevices",
-    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>Por\x20favor\x20ingresa\x20un\x20código</div>",
-    "submit",
-    "log",
-    "EAN_13",
-    "formulario",
-    "PRECIO",
-    "application/x-www-form-urlencoded;\x20charset=UTF-8",
-    "click",
-    "video",
-    "toISOString",
-    "UPC_A",
-    "forEach",
-    "SKU\x20desconocido",
-    "77jzAoOP",
-    "SKU",
+    "ean_8_reader",
+    "json",
     "applyConstraints",
-    "scrollIntoView",
-    "UPC_E",
-    "<ul\x20class=\x22list-group\x20list-group-flush\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20",
+    "result",
+    "putImageData",
+    "formulario",
     "beforeinstallprompt",
-    "min",
-    "1018229mpOqcK",
-    "scope",
-    "target",
-    "accepted",
-    "innerHTML",
-    "resultado",
-    "<div\x20class=\x22alert\x20alert-info\x22\x20role=\x22alert\x22>Procesando\x20imagen...</div>",
-    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>Por\x20favor\x20autoriza\x20el\x20acceso\x20a\x20la\x20cámara</div>",
-    "addEventListener",
     "data",
-    "change",
-    "environment",
-    "</strong></span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22badge\x20bg-success\x20fs-6\x20mb-1\x20mb-md-0\x22>Precio:\x20$",
-    "</div>",
-    "smooth",
-    "CODIGO",
-    "upc_reader",
-    "CODE_39",
+    "target",
     "application/json,\x20text/javascript,\x20*/*;\x20q=0.01",
-    "code_128_reader",
-    "value",
-    "setAttribute",
-    "5956780ARceot",
+    "</strong></span><br>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22fw-bold\x22>Precio:\x20$",
+    "\x0a\x20\x20\x20\x20<div\x20class=\x22d-flex\x20align-items-center\x20justify-content-end\x20h-100\x22>\x0a\x20\x20\x20\x20\x20\x20<button\x20id=\x22limpiarHistorialBtn\x22\x20class=\x22btn\x20btn-danger\x20btn-sm\x22>Limpiar\x20historial</button>\x0a\x20\x20\x20\x20</div>\x0a\x20\x20",
+    "display",
+    "log",
+    "requestSubmit",
+    "83035vxWwwf",
+    "FECHA_ESCANEO",
+    "autoplay",
+    "none",
+    ";\x20path=/",
+    "</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</li>",
+    "</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22text-muted\x20small\x20ms-md-2\x22>Escaneado:\x20",
+    "7fautXD",
+    "mediaDevices",
+    "POST",
+    "now",
+    "serviceWorker",
+    "stringify",
+    "8915226EUukag",
+    "getVideoTracks",
+    "toUTCString",
+    "split",
+    "shift",
+    "forEach",
+    "style",
+    "focus",
+    "fileInput",
+    "codeResult",
+    "pop",
   ];
-  _0x5333 = function () {
-    return _0x260146;
+  _0x7a8f = function () {
+    return _0xa154f1;
   };
-  return _0x5333();
+  return _0x7a8f();
 }
-const fileInput = document[_0x1b717a(0xe6)](_0x1b717a(0xef));
-fileInput[_0x1b717a(0x10f)](_0x1b717a(0x7a), async (_0x37c846) => {
-  const _0x41be3b = _0x1b717a,
-    _0x13b4c5 = _0x37c846[_0x41be3b(0x109)][_0x41be3b(0xb3)][0x0];
-  if (!_0x13b4c5) return;
-  resultadoDiv[_0x41be3b(0x10b)] = _0x41be3b(0x10d);
-  const _0x1c4e74 = new FileReader();
-  (_0x1c4e74[_0x41be3b(0xa8)] = function (_0x199043) {
-    const _0x29b22e = _0x41be3b,
-      _0x1df2b1 = new Image();
-    (_0x1df2b1["onload"] = function () {
-      const _0x1a564b = _0x39cf,
-        _0xb0c36e = document[_0x1a564b(0xda)](_0x1a564b(0xa5)),
-        _0x4160af = _0xb0c36e["getContext"]("2d");
-      (_0xb0c36e["width"] = _0x1df2b1[_0x1a564b(0xd1)]),
-        (_0xb0c36e[_0x1a564b(0xd2)] = _0x1df2b1["height"]),
-        _0x4160af[_0x1a564b(0xd5)](_0x1df2b1, 0x0, 0x0);
-      const _0x18fa0f = _0x4160af[_0x1a564b(0xed)](
+const fileInput = document["getElementById"](_0x403975(0x12e));
+fileInput["addEventListener"](_0x403975(0xdd), async (_0x446e95) => {
+  const _0x115860 = _0x403975,
+    _0x7650be = _0x446e95[_0x115860(0x112)][_0x115860(0xe4)][0x0];
+  if (!_0x7650be) return;
+  resultadoDiv[_0x115860(0xfd)] =
+    "<div\x20class=\x22alert\x20alert-info\x22\x20role=\x22alert\x22>Procesando\x20imagen...</div>";
+  const _0x5fdd90 = new FileReader();
+  (_0x5fdd90[_0x115860(0x152)] = function (_0x574dce) {
+    const _0x49aff6 = _0x115860,
+      _0x2aeeb4 = new Image();
+    (_0x2aeeb4[_0x49aff6(0x152)] = function () {
+      const _0x243fe0 = _0x49aff6,
+        _0x356a22 = document[_0x243fe0(0xea)]("canvas"),
+        _0x2b491e = _0x356a22["getContext"]("2d");
+      (_0x356a22["width"] = _0x2aeeb4[_0x243fe0(0xcb)]),
+        (_0x356a22[_0x243fe0(0xec)] = _0x2aeeb4["height"]),
+        _0x2b491e["drawImage"](_0x2aeeb4, 0x0, 0x0);
+      const _0xd6ec09 = _0x2b491e[_0x243fe0(0x132)](
           0x0,
           0x0,
-          _0xb0c36e[_0x1a564b(0xd1)],
-          _0xb0c36e[_0x1a564b(0xd2)]
+          _0x356a22[_0x243fe0(0xcb)],
+          _0x356a22[_0x243fe0(0xec)]
         ),
-        _0x31d485 = _0x18fa0f[_0x1a564b(0x110)];
+        _0x4ff4ca = _0xd6ec09[_0x243fe0(0x111)];
       for (
-        let _0x479334 = 0x0;
-        _0x479334 < _0x31d485[_0x1a564b(0xb1)];
-        _0x479334 += 0x4
+        let _0x3bc784 = 0x0;
+        _0x3bc784 < _0x4ff4ca["length"];
+        _0x3bc784 += 0x4
       ) {
-        const _0x2c45b0 =
-            (_0x31d485[_0x479334] +
-              _0x31d485[_0x479334 + 0x1] +
-              _0x31d485[_0x479334 + 0x2]) /
+        const _0x407b9d =
+            (_0x4ff4ca[_0x3bc784] +
+              _0x4ff4ca[_0x3bc784 + 0x1] +
+              _0x4ff4ca[_0x3bc784 + 0x2]) /
             0x3,
-          _0x2415a0 = _0x2c45b0 > 0x80 ? 0xff : 0x0;
-        _0x31d485[_0x479334] =
-          _0x31d485[_0x479334 + 0x1] =
-          _0x31d485[_0x479334 + 0x2] =
-            _0x2415a0;
+          _0x33799a = _0x407b9d > 0x80 ? 0xff : 0x0;
+        _0x4ff4ca[_0x3bc784] =
+          _0x4ff4ca[_0x3bc784 + 0x1] =
+          _0x4ff4ca[_0x3bc784 + 0x2] =
+            _0x33799a;
       }
-      _0x4160af[_0x1a564b(0xe1)](_0x18fa0f, 0x0, 0x0);
-      const _0x283ee7 = _0xb0c36e["toDataURL"]();
-      Quagga[_0x1a564b(0xf0)](
+      _0x2b491e[_0x243fe0(0x10e)](_0xd6ec09, 0x0, 0x0);
+      const _0x5301c3 = _0x356a22[_0x243fe0(0x14b)]();
+      Quagga[_0x243fe0(0xc6)](
         {
-          src: _0x283ee7,
+          src: _0x5301c3,
           numOfWorkers: 0x0,
           locate: !![],
           inputStream: { size: 0x320 },
           decoder: {
             readers: [
-              _0x1a564b(0xc1),
-              _0x1a564b(0xac),
-              _0x1a564b(0x83),
-              _0x1a564b(0x80),
-              _0x1a564b(0xd4),
-              _0x1a564b(0xdd),
+              "ean_reader",
+              _0x243fe0(0x10a),
+              "code_128_reader",
+              _0x243fe0(0xf9),
+              _0x243fe0(0xbb),
+              _0x243fe0(0x108),
             ],
           },
         },
-        function (_0x1e8115) {
-          const _0x3e672c = _0x1a564b;
-          _0x1e8115 && _0x1e8115[_0x3e672c(0xab)]
-            ? ((inputCodigo[_0x3e672c(0x84)] = _0x1e8115[_0x3e672c(0xab)][
-                _0x3e672c(0xba)
-              ]
-                ["trim"]()
-                [_0x3e672c(0xae)](/\s+$/, "")),
-              form[_0x3e672c(0xec)]())
-            : ((resultadoDiv[_0x3e672c(0x10b)] = _0x3e672c(0x9b)),
+        function (_0x223e3d) {
+          const _0x430973 = _0x243fe0;
+          _0x223e3d && _0x223e3d[_0x430973(0x12f)]
+            ? ((inputCodigo["value"] = _0x223e3d["codeResult"][_0x430973(0xff)]
+                [_0x430973(0x148)]()
+                [_0x430973(0x14e)](/\s+$/, "")),
+              form[_0x430973(0x118)]())
+            : ((resultadoDiv[_0x430973(0xfd)] = _0x430973(0xee)),
               renderHistorial()),
-            (fileInput["value"] = "");
+            (fileInput[_0x430973(0xdb)] = "");
         }
       );
     }),
-      (_0x1df2b1[_0x29b22e(0xa9)] =
-        _0x199043[_0x29b22e(0x109)][_0x29b22e(0xe3)]);
+      (_0x2aeeb4[_0x49aff6(0xbc)] =
+        _0x574dce[_0x49aff6(0x112)][_0x49aff6(0x10d)]);
   }),
-    _0x1c4e74[_0x41be3b(0xc3)](_0x13b4c5);
+    _0x5fdd90[_0x115860(0x136)](_0x7650be);
 });
-function _0x39cf(_0x544dfb, _0x32e807) {
-  const _0x5333e1 = _0x5333();
-  return (
-    (_0x39cf = function (_0x39cf3d, _0x2f9440) {
-      _0x39cf3d = _0x39cf3d - 0x7a;
-      let _0xa1fa58 = _0x5333e1[_0x39cf3d];
-      return _0xa1fa58;
-    }),
-    _0x39cf(_0x544dfb, _0x32e807)
-  );
-}
-"serviceWorker" in navigator &&
-  window[_0x1b717a(0x10f)](_0x1b717a(0x95), () => {
-    const _0x17e54e = _0x1b717a;
-    navigator[_0x17e54e(0x8d)]
-      [_0x17e54e(0x89)](_0x17e54e(0xa0))
-      [_0x17e54e(0x8c)]((_0x33a346) =>
-        console[_0x17e54e(0xf4)](_0x17e54e(0xbd), _0x33a346[_0x17e54e(0x108)])
+_0x403975(0x124) in navigator &&
+  window[_0x403975(0xe5)](_0x403975(0x147), () => {
+    const _0x48631d = _0x403975;
+    navigator[_0x48631d(0x124)]
+      [_0x48631d(0xf5)](_0x48631d(0x153))
+      [_0x48631d(0x142)]((_0x5cc71f) =>
+        console[_0x48631d(0x117)](
+          "✅\x20Service\x20Worker\x20registrado:",
+          _0x5cc71f["scope"]
+        )
       )
-      [_0x17e54e(0x9f)]((_0x360165) =>
-        console[_0x17e54e(0xcc)](_0x17e54e(0xa1), _0x360165)
+      [_0x48631d(0xe0)]((_0x23c9d1) =>
+        console[_0x48631d(0xe3)](_0x48631d(0xbd), _0x23c9d1)
       );
   });
-window[_0x1b717a(0x10f)](_0x1b717a(0x105), (_0x53aed6) => {
-  const _0x114ea9 = _0x1b717a;
-  _0x53aed6["preventDefault"](),
-    (deferredPrompt = _0x53aed6),
-    installBtn && installBtn[_0x114ea9(0xca)][_0x114ea9(0xe7)](_0x114ea9(0xbb));
+window[_0x403975(0xe5)](_0x403975(0x110), (_0x5809d1) => {
+  const _0x1faef5 = _0x403975;
+  _0x5809d1[_0x1faef5(0x150)](),
+    (deferredPrompt = _0x5809d1),
+    installBtn &&
+      installBtn[_0x1faef5(0xf6)][_0x1faef5(0x141)](_0x1faef5(0x13e));
 }),
-  installBtn["addEventListener"](_0x1b717a(0xf9), (_0x177fc9) => {
-    const _0x65a6b1 = _0x1b717a;
+  installBtn["addEventListener"](_0x403975(0xd5), (_0x28ae1e) => {
+    const _0x326b3e = _0x403975;
     deferredPrompt &&
-      (deferredPrompt[_0x65a6b1(0xeb)](),
-      deferredPrompt[_0x65a6b1(0xc5)][_0x65a6b1(0x8c)]((_0xca3553) => {
-        const _0x207f5d = _0x65a6b1;
-        _0xca3553[_0x207f5d(0x88)] === _0x207f5d(0x10a)
-          ? console[_0x207f5d(0xf4)]("✅\x20Instalación\x20aceptada")
-          : console[_0x207f5d(0xf4)](_0x207f5d(0x94)),
+      (deferredPrompt[_0x326b3e(0x131)](),
+      deferredPrompt[_0x326b3e(0xe8)][_0x326b3e(0x142)]((_0x6b697b) => {
+        const _0x456ecf = _0x326b3e;
+        _0x6b697b["outcome"] === _0x456ecf(0xd7)
+          ? console["log"](_0x456ecf(0x135))
+          : console[_0x456ecf(0x117)](_0x456ecf(0xcf)),
           (deferredPrompt = null),
-          installBtn[_0x207f5d(0xca)][_0x207f5d(0xaf)]("d-none");
+          installBtn[_0x456ecf(0xf6)][_0x456ecf(0xc9)](_0x456ecf(0x13e));
       }));
-  }),
-  renderHistorial();
+  });
+"serviceWorker" in navigator &&
+  (navigator[_0x403975(0x124)]
+    [_0x403975(0xe1)]()
+    [_0x403975(0x142)](function (_0x5b561b) {
+      const _0x300381 = _0x403975;
+      for (let _0x261de9 of _0x5b561b) {
+        _0x261de9[_0x300381(0xc5)]();
+      }
+    }),
+  navigator[_0x403975(0x124)]["addEventListener"](
+    _0x403975(0x13f),
+    function () {
+      const _0x356de5 = _0x403975;
+      window[_0x356de5(0x133)][_0x356de5(0xbe)]();
+    }
+  ));
+renderHistorial();
