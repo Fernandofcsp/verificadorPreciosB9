@@ -66,8 +66,8 @@
       <div class="text-center mb-4">
         <h1 class="mb-3">Consulta de Precios</h1>
         <p class="text-muted">Escanea o escribe el código del producto</p>
-      </div>
-
+      </div>    
+      <div id="resultado"></div>
       <div class="w-100" style="max-width: 400px">
         <form id="formulario" class="d-flex gap-2 mb-3">
           <input
@@ -79,7 +79,7 @@
           />
           <button type="submit" class="btn btn-primary">Consultar</button>
         </form>
-
+      
         <div class="text-center mb-3">
           <button onclick="iniciarScanner()" class="btn btn-outline-secondary">
             📷 Escanear Código
@@ -102,7 +102,9 @@
           resultados.
         </p>
       </div>
+      <div id="historial"></div>
     </div>
+    
 
     <!-- Botón para instalar -->
     <button id="installBtn" class="btn btn-success d-none">
