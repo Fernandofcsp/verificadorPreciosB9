@@ -1,4 +1,4 @@
-const CACHE_NAME = "back9-cache-v2"; // Cambia la versión cada vez que actualices
+const CACHE_NAME = "back9-cache-v3"; // Cambia la versión cada vez que actualices
 const urlsToCache = [
   "/",
   "/index.html",
@@ -36,15 +36,7 @@ self.addEventListener("activate", (event) => {
           .filter(name => name !== CACHE_NAME)
           .map(name => caches.delete(name))
       );
-    }).then(() => {
-      self.clients.claim();
-      // Forzar actualización en todos los clientes
-      return self.clients.matchAll({ type: 'window' }).then(clients => {
-        clients.forEach(client => {
-          client.postMessage({ type: 'SKIP_WAITING' });
-        });
-      });
-    })
+    }).then(() => self.clients.claim())
   );
 });
 
@@ -58,8 +50,4 @@ self.addEventListener("fetch", (event) => {
 });
 
 // Manejo del evento 'message' para actualizaciones
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-});
+// ...existing code...
