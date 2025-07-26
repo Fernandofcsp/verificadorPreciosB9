@@ -36,7 +36,15 @@ self.addEventListener("activate", (event) => {
           .filter(name => name !== CACHE_NAME)
           .map(name => caches.delete(name))
       );
-    }).then(() => self.clients.claim())
+    }).then(() => {
+      self.clients.claim();
+      // Forzar actualización en todos los clientes
+      return self.clients.matchAll({ type: 'window' }).then(clients => {
+        clients.forEach(client => {
+          client.postMessage({ type: 'SKIP_WAITING' });
+        });
+      });
+    })
   );
 });
 
