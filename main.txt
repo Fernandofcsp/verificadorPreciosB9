@@ -90,6 +90,14 @@ function renderHistorial() {
 }
 
 // --- ENVÍO AUTOMÁTICO AL ESCANEAR O PEGAR UN SKU ---
+// Evitar mostrar el teclado automáticamente en móviles
+inputCodigo.setAttribute("readonly", "true");
+inputCodigo.addEventListener("focus", function () {
+  inputCodigo.removeAttribute("readonly");
+});
+inputCodigo.addEventListener("blur", function () {
+  inputCodigo.setAttribute("readonly", "true");
+});
 inputCodigo.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -219,23 +227,26 @@ function iniciarScanner() {
         },
       };
 
-      html5QrCode
-        .start(
+      // Mantener el scanner activo después de escanear
+      function startScanner() {
+        html5QrCode.start(
           { facingMode: "environment" },
           config,
           (decodedText) => {
-            inputCodigo.value = decodedText.trim().replace(/\s+$/, "");
-            html5QrCode.stop().then(() => {
-              readerDiv.style.display = "none";
-              ayudaTexto.style.display = "none";
-              scannerActivo = false;
-              html5QrCode.clear();
-              form.requestSubmit();
-            });
+            const codigoActual = decodedText.trim().replace(/\s+$/, "");
+            if (!puedeEscanear) return;
+            if (codigoActual === ultimoCodigoEscaneado) return;
+            puedeEscanear = false;
+            ultimoCodigoEscaneado = codigoActual;
+            inputCodigo.value = codigoActual;
+            form.requestSubmit();
+            setTimeout(() => {
+              puedeEscanear = true;
+              ultimoCodigoEscaneado = "";
+            }, 2000); // 2 segundos de espera
           },
           (errorMessage) => {}
-        )
-        .then(() => {
+        ).then(() => {
           setTimeout(() => {
             const video = readerDiv.querySelector("video");
             if (video) {
@@ -245,20 +256,18 @@ function iniciarScanner() {
                   focusMode: "continuous",
                   advanced: [{ zoom: 2.0 }],
                 })
-                .then(() => {
-                  // Constraints aplicadas
-                })
-                .catch((err) => {
-                  // No se pudieron aplicar constraints
-                });
+                .then(() => {})
+                .catch((err) => {});
             }
           }, 2000);
-        })
-        .catch((err) => {
+        }).catch((err) => {
           scannerActivo = false;
-          resultadoDiv.innerHTML = `<div class="alert alert-danger" role="alert">No se pudo acceder a la cámara: ${err}</div>`;
+          resultadoDiv.innerHTML = `<div class=\"alert alert-danger\" role=\"alert\">No se pudo acceder a la cámara: ${err}</div>`;
           renderHistorial();
         });
+      }
+
+      startScanner();
 
       const observer = new MutationObserver(() => {
         const video = readerDiv.querySelector("video");
@@ -272,7 +281,7 @@ function iniciarScanner() {
       observer.observe(readerDiv, { childList: true, subtree: true });
     })
     .catch((err) => {
-      resultadoDiv.innerHTML = `<div class="alert alert-danger" role="alert">Por favor autoriza el acceso a la cámara</div>`;
+      resultadoDiv.innerHTML = `<div class=\"alert alert-danger\" role=\"alert\">Por favor autoriza el acceso a la cámara</div>`;
       renderHistorial();
     });
 }
