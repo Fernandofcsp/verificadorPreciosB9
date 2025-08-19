@@ -1,457 +1,629 @@
-const form = document.getElementById("formulario");
-const inputCodigo = document.getElementById("codigo");
-const readerDiv = document.getElementById("reader");
-const ayudaTexto = document.getElementById("ayuda");
-const installBtn = document.getElementById("installBtn");
-let scannerActivo = false;
-let deferredPrompt;
-let puedeEscanear = true;
-let ultimoCodigoEscaneado = "";
-
-// Funciones para manejar cookies
-function setCookie(name, value, days) {
-  const expires = new Date(Date.now() + days*24*60*60*1000).toUTCString();
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+const _0x3d7cac = _0x2e33;
+(function (_0x4d9320, _0x3ed380) {
+  const _0x3747db = _0x2e33,
+    _0x58de8a = _0x4d9320();
+  while (!![]) {
+    try {
+      const _0x298ee1 =
+        parseInt(_0x3747db(0x101)) / 0x1 +
+        (-parseInt(_0x3747db(0x9f)) / 0x2) *
+          (-parseInt(_0x3747db(0x10a)) / 0x3) +
+        (-parseInt(_0x3747db(0x113)) / 0x4) *
+          (parseInt(_0x3747db(0xe7)) / 0x5) +
+        -parseInt(_0x3747db(0x95)) / 0x6 +
+        (parseInt(_0x3747db(0x117)) / 0x7) * (parseInt(_0x3747db(0xb9)) / 0x8) +
+        (parseInt(_0x3747db(0xe9)) / 0x9) * (parseInt(_0x3747db(0x9d)) / 0xa) +
+        (parseInt(_0x3747db(0xe4)) / 0xb) * (-parseInt(_0x3747db(0xd8)) / 0xc);
+      if (_0x298ee1 === _0x3ed380) break;
+      else _0x58de8a["push"](_0x58de8a["shift"]());
+    } catch (_0x909ad2) {
+      _0x58de8a["push"](_0x58de8a["shift"]());
+    }
+  }
+})(_0x2484, 0x4044b);
+const form = document[_0x3d7cac(0x102)](_0x3d7cac(0xa4)),
+  inputCodigo = document[_0x3d7cac(0x102)](_0x3d7cac(0xed)),
+  readerDiv = document[_0x3d7cac(0x102)](_0x3d7cac(0x100)),
+  ayudaTexto = document[_0x3d7cac(0x102)](_0x3d7cac(0x121)),
+  installBtn = document[_0x3d7cac(0x102)](_0x3d7cac(0xd3));
+let scannerActivo = ![],
+  deferredPrompt,
+  puedeEscanear = !![],
+  ultimoCodigoEscaneado = "";
+function setCookie(_0x1f0e1c, _0x571d44, _0x439b09) {
+  const _0x3049ac = _0x3d7cac,
+    _0x48da35 = new Date(
+      Date[_0x3049ac(0x9b)]() + _0x439b09 * 0x18 * 0x3c * 0x3c * 0x3e8
+    )[_0x3049ac(0x10d)]();
+  document[_0x3049ac(0xa7)] =
+    _0x1f0e1c +
+    "=" +
+    encodeURIComponent(_0x571d44) +
+    _0x3049ac(0x83) +
+    _0x48da35 +
+    _0x3049ac(0xf7);
 }
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
+function getCookie(_0xd914a2) {
+  const _0x5e7bc4 = _0x3d7cac,
+    _0x5df610 = ";\x20" + document[_0x5e7bc4(0xa7)],
+    _0xe4da7e = _0x5df610[_0x5e7bc4(0xf9)](";\x20" + _0xd914a2 + "=");
+  if (_0xe4da7e[_0x5e7bc4(0xba)] === 0x2)
+    return decodeURIComponent(
+      _0xe4da7e[_0x5e7bc4(0xa2)]()[_0x5e7bc4(0xf9)](";")["shift"]()
+    );
   return null;
 }
-
-// NUEVO: historial de productos y resultado independiente
-const historialDiv = document.getElementById("historial");
-const resultadoDiv = document.getElementById("resultado");
-
-// Cargar historial desde cookie si existe
+const historialDiv = document[_0x3d7cac(0x102)]("historial"),
+  resultadoDiv = document[_0x3d7cac(0x102)](_0x3d7cac(0xbb));
 let historial = [];
-const historialCookie = getCookie("historial");
-if (historialCookie) {
+const historialCookie = getCookie(_0x3d7cac(0xfa));
+if (historialCookie)
   try {
-    historial = JSON.parse(historialCookie);
-  } catch (e) {
+    historial = JSON[_0x3d7cac(0xf2)](historialCookie);
+  } catch (_0x244c48) {
     historial = [];
   }
-}
-
-// Botón para limpiar historial centrado verticalmente
 function renderClearButton() {
-  return `
-    <div class="d-flex align-items-center justify-content-end h-100">
-      <button id="limpiarHistorialBtn" class="btn btn-danger btn-sm">Limpiar historial</button>
-    </div>
-  `;
+  const _0x13a1e3 = _0x3d7cac;
+  return _0x13a1e3(0x9a);
 }
-
 function renderHistorial() {
-  historialDiv.innerHTML = `
-    <div class="card shadow-sm mb-3 w-100">
-      <div class="card-header bg-primary text-white d-flex flex-column flex-md-row justify-content-between align-items-center">
-        <strong>Historial de productos escaneados:</strong>
-        ${historial.length > 0 ? renderClearButton() : ""}
-      </div>
-      <div class="card-body p-2">
-        ${
-          historial.length === 0
-            ? '<p class="text-muted mb-0">No hay productos escaneados.</p>'
-            : `<ul class="list-group list-group-flush">
-                ${historial
-                  .map((producto) => {
-                    const sku = producto.CODIGO || producto.SKU || "SKU desconocido";
-                    const fecha = producto.FECHA_ESCANEO
-                      ? new Date(producto.FECHA_ESCANEO).toLocaleString()
-                      : "Fecha desconocida";
-                    return `<li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
-                      <span class="d-flex align-items-center">
-                        <strong>${producto.NOMBRE}</strong>
-                        <button class="btn btn-link btn-sm ms-2 p-0 copiar-btn" title="Copiar descripción" data-copiar="${producto.NOMBRE}" style="font-size:1.2rem; color:#616161;">
-                          <i class="bi bi-clipboard"></i>
-                        </button>
-                      </span>
-                      <span class="small text-secondary ms-md-2 d-flex align-items-center">
-                        SKU: <strong class="ms-1">${sku}</strong>
-                        <button class="btn btn-link btn-sm ms-2 p-0 copiar-btn" title="Copiar SKU" data-copiar="${sku}" style="font-size:1.2rem; color:#616161;">
-                          <i class="bi bi-clipboard"></i>
-                        </button>
-                      </span>
-                      <span class="badge bg-success fs-6 mb-1 mb-md-0 ms-md-2">Precio: $${producto.PRECIO}</span>
-                      <span class="text-muted small ms-md-2">Escaneado: ${fecha}</span>
-                    </li>`;
-                  })
-                  .join("")}
-              </ul>`
-        }
-      </div>
-    </div>
-  `;
-  setCookie("historial", JSON.stringify(historial), 30);
-
-  const limpiarBtn = document.getElementById("limpiarHistorialBtn");
-  if (limpiarBtn) {
-    limpiarBtn.addEventListener("click", () => {
-      historial = [];
-      setCookie("historial", JSON.stringify(historial), 30);
-      renderHistorial();
+  const _0x3091b6 = _0x3d7cac;
+  (historialDiv[_0x3091b6(0x118)] =
+    _0x3091b6(0xb1) +
+    (historial[_0x3091b6(0xba)] > 0x0 ? renderClearButton() : "") +
+    "\x0a\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20<div\x20class=\x22card-body\x20p-2\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20" +
+    (historial[_0x3091b6(0xba)] === 0x0
+      ? _0x3091b6(0xe5)
+      : _0x3091b6(0x11b) +
+        historial[_0x3091b6(0x8e)]((_0x10418d) => {
+          const _0x5e1c08 = _0x3091b6,
+            _0x3df8c8 =
+              _0x10418d[_0x5e1c08(0xb3)] ||
+              _0x10418d[_0x5e1c08(0xa6)] ||
+              _0x5e1c08(0xc4),
+            _0x666790 = _0x10418d[_0x5e1c08(0xca)]
+              ? new Date(_0x10418d["FECHA_ESCANEO"])["toLocaleString"]()
+              : "Fecha\x20desconocida";
+          return (
+            "<li\x20class=\x22list-group-item\x20d-flex\x20flex-column\x20flex-md-row\x20justify-content-between\x20align-items-md-center\x20gap-2\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22d-flex\x20align-items-center\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<strong>" +
+            _0x10418d[_0x5e1c08(0x11d)] +
+            _0x5e1c08(0x82) +
+            _0x10418d[_0x5e1c08(0x11d)] +
+            "\x22\x20style=\x22font-size:1.2rem;\x20color:#616161;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<i\x20class=\x22bi\x20bi-clipboard\x22></i>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22small\x20text-secondary\x20ms-md-2\x20d-flex\x20align-items-center\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20SKU:\x20<strong\x20class=\x22ms-1\x22>" +
+            _0x3df8c8 +
+            _0x5e1c08(0x8d) +
+            _0x3df8c8 +
+            _0x5e1c08(0x122) +
+            _0x10418d[_0x5e1c08(0xac)] +
+            _0x5e1c08(0x9c) +
+            _0x666790 +
+            _0x5e1c08(0xdf)
+          );
+        })[_0x3091b6(0x10e)]("") +
+        _0x3091b6(0xd6)) +
+    "\x0a\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20</div>\x0a\x20\x20"),
+    setCookie(_0x3091b6(0xfa), JSON[_0x3091b6(0xf3)](historial), 0x1e);
+  const _0x20ea55 = document["getElementById"]("limpiarHistorialBtn");
+  _0x20ea55 &&
+    _0x20ea55[_0x3091b6(0xe3)](_0x3091b6(0xfb), () => {
+      const _0x5dbf28 = _0x3091b6;
+      (historial = []),
+        setCookie("historial", JSON[_0x5dbf28(0xf3)](historial), 0x1e),
+        renderHistorial();
     });
-  }
-
-  // Botones copiar
-  const copiarBtns = historialDiv.querySelectorAll('.copiar-btn');
-  copiarBtns.forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      const valor = btn.getAttribute('data-copiar');
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(valor).then(() => {
-          btn.innerHTML = '<i class="bi bi-clipboard-check"></i>';
-          setTimeout(() => {
-            btn.innerHTML = '<i class="bi bi-clipboard"></i>';
-          }, 1200);
-        });
-      }
+  const _0x444ba3 = historialDiv[_0x3091b6(0xbc)](".copiar-btn");
+  _0x444ba3[_0x3091b6(0xc3)]((_0x431e6e) => {
+    const _0x37756e = _0x3091b6;
+    _0x431e6e[_0x37756e(0xe3)](_0x37756e(0xfb), function (_0x5f17) {
+      const _0xc748bb = _0x37756e,
+        _0x5b65f9 = _0x431e6e[_0xc748bb(0xd4)](_0xc748bb(0x114));
+      navigator[_0xc748bb(0xad)] &&
+        navigator[_0xc748bb(0xad)]
+          ["writeText"](_0x5b65f9)
+          [_0xc748bb(0xce)](() => {
+            const _0x18599e = _0xc748bb;
+            (_0x431e6e[_0x18599e(0x118)] = _0x18599e(0x87)),
+              setTimeout(() => {
+                const _0xf3fd6 = _0x18599e;
+                _0x431e6e[_0xf3fd6(0x118)] =
+                  "<i\x20class=\x22bi\x20bi-clipboard\x22></i>";
+              }, 0x4b0);
+          });
     });
   });
 }
-
-// --- ENVÍO AUTOMÁTICO AL ESCANEAR O PEGAR UN SKU ---
-inputCodigo.addEventListener("keydown", function (e) {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    form.requestSubmit();
-  }
-});
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  let codigo = inputCodigo.value.trim().replace(/\s+$/, "");
-  inputCodigo.value = codigo;
-
-  resultadoDiv.innerHTML = ""; // Limpia mensaje anterior
-
-  if (!codigo) {
-    resultadoDiv.innerHTML = `<div class="alert alert-danger" role="alert">Por favor ingresa un código</div>`;
-    renderHistorial();
-    inputCodigo.focus();
-    return;
-  }
-
-  // Borra el placeholder después de escanear
-  inputCodigo.placeholder = "";
-
-  resultadoDiv.innerHTML = `<div class="alert alert-info" role="alert">Buscando producto...</div>`;
-
-  try {
-    const response = await fetch(
-      "https://dvncloud.com/instancias/theback9golf/index.php?controller=theback9golf:consultar_precio&DVNUSERID=45&DVNSUCURSAL=1",
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json, text/javascript, */*; q=0.01",
-          "Content-Type":
-            "application/x-www-form-urlencoded; charset=UTF-8",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-        body: `codigo=${codigo}`,
-      }
-    );
-
-    const data = await response.json();
-
-    if (data?.DATOS?.NOMBRE) {
-      const producto = data.DATOS;
-      producto.CODIGO = producto.CODIGO || producto.SKU || codigo;
-      producto.FECHA_ESCANEO = new Date().toISOString();
-      historial.unshift(producto);
-           // Procesar la URL de la imagen para que sea absoluta si es relativa
-           let urlImg = "";
-           if (producto.URL_IMG && producto.URL_IMG.trim() !== "") {
-               if (producto.URL_IMG.startsWith("http")) {
-                   urlImg = producto.URL_IMG;
-               } else {
-                   // Quitar los ../ iniciales si existen
-                   let cleanPath = producto.URL_IMG.replace(/^\.\.\//, "");
-                   // Construir la URL absoluta
-                   urlImg = `https://dvncloud.com/${cleanPath.replace(/^\//, "")}`;
-               }
-           }
-      resultadoDiv.innerHTML = `
-        <div class="row align-items-center justify-content-center g-0 mb-4" style="padding: 0px 10px;">
-          ${urlImg ? `
-          <div class="col-12 col-lg-4 d-flex justify-content-center mb-3 mb-lg-0">
-            <img src="${urlImg}" alt="Imagen del producto" class="img-fluid rounded shadow" style="max-width:220px; background:#f5f5f5; padding:10px;">
-          </div>
-          ` : ""}
-          <div class="col-12 col-lg-8 text-center">
-            <div class="fw-bold" style="font-size:2rem; color:#616161;">${producto.NOMBRE}</div>
-            <div class="fw-bold text-danger" style="font-size:4rem;">$ ${producto.PRECIO}</div>
-            <div class="text-secondary" style="font-size:1rem;">SKU: <b>${producto.CODIGO}</b></div>
-          </div>
-        </div>
-      `;
-      inputCodigo.value = "";
-      inputCodigo.focus();
-    } else {
-      resultadoDiv.innerHTML = `<div class="alert alert-danger" role="alert">No se encontró el código ingresado</div>`;
-      inputCodigo.value = "";
-      inputCodigo.focus();
-      setTimeout(() => {
-        resultadoDiv.innerHTML = "";
-      }, 5000);
+inputCodigo[_0x3d7cac(0xe3)](_0x3d7cac(0x7f), function (_0x2d7d4b) {
+  const _0xe9e7d9 = _0x3d7cac;
+  _0x2d7d4b[_0xe9e7d9(0x8a)] === "Enter" &&
+    (_0x2d7d4b[_0xe9e7d9(0xcd)](), form[_0xe9e7d9(0xc0)]());
+}),
+  form["addEventListener"](_0x3d7cac(0x107), async (_0x1cdd31) => {
+    const _0x2dd788 = _0x3d7cac;
+    _0x1cdd31[_0x2dd788(0xcd)]();
+    let _0x5dcbfa = inputCodigo["value"]
+      [_0x2dd788(0xfe)]()
+      ["replace"](/\s+$/, "");
+    (inputCodigo[_0x2dd788(0xe8)] = _0x5dcbfa),
+      (resultadoDiv[_0x2dd788(0x118)] = "");
+    if (!_0x5dcbfa) {
+      (resultadoDiv[_0x2dd788(0x118)] = _0x2dd788(0xfd)),
+        renderHistorial(),
+        inputCodigo["focus"]();
+      return;
     }
-    renderHistorial();
-  } catch (error) {
-    resultadoDiv.innerHTML = `<div class="alert alert-danger" role="alert">Ocurrió un error al consultar el producto</div>`;
-    inputCodigo.focus();
-    renderHistorial();
-  }
-});
-
-function iniciarScanner() {
-  if (scannerActivo) return;
-
-  navigator.mediaDevices
-    .getUserMedia({ video: true })
-    .then((stream) => {
-      stream.getTracks().forEach((track) => track.stop());
-
-      scannerActivo = true;
-      readerDiv.style.display = "block";
-      document.getElementById("reader").scrollIntoView({ behavior: "smooth", block: "center" });
-      ayudaTexto.style.display = "block";
-
-      const html5QrCode = new Html5Qrcode("reader");
-      const config = {
-        fps: 10,
-        videoConstraints: {
-          width: { min: 400, ideal: 1920 },
-          height: { min: 400, ideal: 1080 },
-          facingMode: "environment",
-          advanced: [{ zoom: 2.0 }],
-        },
-        qrbox: function (viewfinderWidth, viewfinderHeight) {
-          const width = Math.min(300, viewfinderWidth * 0.9);
-          const height = 100;
-          return { width, height };
-        },
-        rememberLastUsedCamera: true,
-        aspectRatio: 1.0,
-        formatsToSupport: [
-          Html5QrcodeSupportedFormats.CODE_128,
-          Html5QrcodeSupportedFormats.EAN_13,
-          Html5QrcodeSupportedFormats.EAN_8,
-          Html5QrcodeSupportedFormats.UPC_A,
-          Html5QrcodeSupportedFormats.UPC_E,
-          Html5QrcodeSupportedFormats.CODE_39,
-        ],
-        experimentalFeatures: {
-          useBarCodeDetectorIfSupported: true,
-        },
-      };
-
-      html5QrCode
-        .start(
-          { facingMode: "environment" },
-          config,
-          (decodedText) => {
-            inputCodigo.value = decodedText.trim().replace(/\s+$/, "");
-            html5QrCode.stop().then(() => {
-              readerDiv.style.display = "none";
-              ayudaTexto.style.display = "none";
-              scannerActivo = false;
-              html5QrCode.clear();
-              form.requestSubmit();
-            });
+    (inputCodigo[_0x2dd788(0x88)] = ""),
+      (resultadoDiv[_0x2dd788(0x118)] = _0x2dd788(0x84));
+    try {
+      const _0x11be9e = await fetch(_0x2dd788(0xb7), {
+          method: _0x2dd788(0xa0),
+          headers: {
+            Accept: _0x2dd788(0xcb),
+            "Content-Type": _0x2dd788(0xcc),
+            "X-Requested-With": _0x2dd788(0xec),
           },
-          (errorMessage) => {}
-        )
-        .then(() => {
-          setTimeout(() => {
-            const video = readerDiv.querySelector("video");
-            if (video) {
-              const track = video.srcObject.getVideoTracks()[0];
-              track
-                .applyConstraints({
-                  focusMode: "continuous",
-                  advanced: [{ zoom: 2.0 }],
-                })
-                .then(() => {
-                  // Constraints aplicadas
-                })
-                .catch((err) => {
-                  // No se pudieron aplicar constraints
-                });
-            }
-          }, 2000);
-        })
-        .catch((err) => {
-          scannerActivo = false;
-          resultadoDiv.innerHTML = `<div class="alert alert-danger" role="alert">No se pudo acceder a la cámara: ${err}</div>`;
-          renderHistorial();
-        });
-
-      const observer = new MutationObserver(() => {
-        const video = readerDiv.querySelector("video");
-        if (video) {
-          video.setAttribute("playsinline", "");
-          video.setAttribute("autoplay", "");
-          video.setAttribute("muted", "");
-          observer.disconnect();
+          body: "codigo=" + _0x5dcbfa,
+        }),
+        _0x16ee6e = await _0x11be9e[_0x2dd788(0x92)]();
+      if (_0x16ee6e?.[_0x2dd788(0xf0)]?.["NOMBRE"]) {
+        const _0x3a9491 = _0x16ee6e[_0x2dd788(0xf0)];
+        (_0x3a9491[_0x2dd788(0xb3)] =
+          _0x3a9491[_0x2dd788(0xb3)] || _0x3a9491["SKU"] || _0x5dcbfa),
+          (_0x3a9491["FECHA_ESCANEO"] = new Date()[_0x2dd788(0xbf)]()),
+          historial[_0x2dd788(0xc5)](_0x3a9491);
+        let _0x5deaa7 = "";
+        if (
+          _0x3a9491["URL_IMG"] &&
+          _0x3a9491[_0x2dd788(0xa9)]["trim"]() !== ""
+        ) {
+          if (_0x3a9491[_0x2dd788(0xa9)][_0x2dd788(0x115)](_0x2dd788(0xf4)))
+            _0x5deaa7 = _0x3a9491[_0x2dd788(0xa9)];
+          else {
+            let _0x30ccc7 = _0x3a9491[_0x2dd788(0xa9)][_0x2dd788(0xaf)](
+              /^\.\.\//,
+              ""
+            );
+            _0x5deaa7 = _0x2dd788(0xa5) + _0x30ccc7[_0x2dd788(0xaf)](/^\//, "");
+          }
         }
-      });
-      observer.observe(readerDiv, { childList: true, subtree: true });
-    })
-    .catch((err) => {
-      resultadoDiv.innerHTML = `<div class="alert alert-danger" role="alert">Por favor autoriza el acceso a la cámara</div>`;
+        (resultadoDiv["innerHTML"] =
+          _0x2dd788(0xff) +
+          (_0x5deaa7 ? _0x2dd788(0xe0) + _0x5deaa7 + _0x2dd788(0x10b) : "") +
+          "\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22col-12\x20col-lg-8\x20text-center\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22fw-bold\x22\x20style=\x22font-size:2rem;\x20color:#616161;\x22>" +
+          _0x3a9491[_0x2dd788(0x11d)] +
+          _0x2dd788(0xf1) +
+          _0x3a9491["PRECIO"] +
+          _0x2dd788(0xb0) +
+          _0x3a9491[_0x2dd788(0xb3)] +
+          _0x2dd788(0x119)),
+          (inputCodigo["value"] = ""),
+          inputCodigo["focus"]();
+      } else
+        (resultadoDiv[_0x2dd788(0x118)] = _0x2dd788(0x85)),
+          (inputCodigo[_0x2dd788(0xe8)] = ""),
+          inputCodigo[_0x2dd788(0xb4)](),
+          setTimeout(() => {
+            const _0x267dd2 = _0x2dd788;
+            resultadoDiv[_0x267dd2(0x118)] = "";
+          }, 0x1388);
       renderHistorial();
+    } catch (_0x4c7299) {
+      (resultadoDiv[_0x2dd788(0x118)] = _0x2dd788(0x86)),
+        inputCodigo[_0x2dd788(0xb4)](),
+        renderHistorial();
+    }
+  });
+function _0x2484() {
+  const _0x1d57f1 = [
+    "canvas",
+    "\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</ul>",
+    "block",
+    "528180nwDqgo",
+    "createElement",
+    "appendChild",
+    "target",
+    "error",
+    "outcome",
+    "decodeSingle",
+    "</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</li>",
+    "\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22col-12\x20col-lg-4\x20d-flex\x20justify-content-center\x20mb-3\x20mb-lg-0\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<img\x20src=\x22",
+    "setAttribute",
+    "✅\x20Service\x20Worker\x20registrado:",
+    "addEventListener",
+    "154IpYGoI",
+    "<p\x20class=\x22text-muted\x20mb-0\x22>No\x20hay\x20productos\x20escaneados.</p>",
+    "reload",
+    "21730HIlXrU",
+    "value",
+    "2031462JlhQyT",
+    "getImageData",
+    "change",
+    "XMLHttpRequest",
+    "codigo",
+    "clear",
+    "prompt",
+    "DATOS",
+    "</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22fw-bold\x20text-danger\x22\x20style=\x22font-size:4rem;\x22>$\x20",
+    "parse",
+    "stringify",
+    "http",
+    "CODE_128",
+    "fileInput",
+    ";\x20path=/",
+    "querySelector",
+    "split",
+    "historial",
+    "click",
+    "src",
+    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>Por\x20favor\x20ingresa\x20un\x20código</div>",
+    "trim",
+    "\x0a\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22row\x20align-items-center\x20justify-content-center\x20g-0\x20mb-4\x22\x20style=\x22padding:\x200px\x2010px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20",
+    "reader",
+    "472098HjrPHr",
+    "getElementById",
+    "putImageData",
+    "\x0a\x20\x20#reader\x20{\x0a\x20\x20\x20\x20position:\x20relative;\x0a\x20\x20\x20\x20width:\x20320px;\x0a\x20\x20\x20\x20height:\x20120px;\x0a\x20\x20\x20\x20overflow:\x20hidden;\x0a\x20\x20\x20\x20margin:\x200\x20auto;\x0a\x20\x20\x20\x20background:\x20#000;\x0a\x20\x20\x20\x20border-radius:\x2012px;\x0a\x20\x20\x20\x20box-shadow:\x200\x202px\x208px\x20rgba(0,0,0,0.15);\x0a\x20\x20}\x0a\x20\x20#reader\x20video\x20{\x0a\x20\x20\x20\x20position:\x20absolute;\x0a\x20\x20\x20\x20top:\x200;\x0a\x20\x20\x20\x20left:\x2050%;\x0a\x20\x20\x20\x20transform:\x20translateX(-50%);\x0a\x20\x20\x20\x20width:\x20320px\x20!important;\x0a\x20\x20\x20\x20height:\x20120px\x20!important;\x0a\x20\x20\x20\x20object-fit:\x20cover;\x0a\x20\x20}\x0a",
+    "scrollIntoView",
+    "muted",
+    "submit",
+    "beforeinstallprompt",
+    "disconnect",
+    "4623tvYKGs",
+    "\x22\x20alt=\x22Imagen\x20del\x20producto\x22\x20class=\x22img-fluid\x20rounded\x20shadow\x22\x20style=\x22max-width:220px;\x20background:#f5f5f5;\x20padding:10px;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20",
+    "applyConstraints",
+    "toUTCString",
+    "join",
+    "d-none",
+    "classList",
+    "❌\x20Instalación\x20rechazada",
+    "load",
+    "340CrfmKT",
+    "data-copiar",
+    "startsWith",
+    "upc_e_reader",
+    "7DXhxUo",
+    "innerHTML",
+    "</b></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20",
+    "onload",
+    "<ul\x20class=\x22list-group\x20list-group-flush\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20",
+    "playsinline",
+    "NOMBRE",
+    "UPC_A",
+    "data",
+    "scope",
+    "ayuda",
+    "\x22\x20style=\x22font-size:1.2rem;\x20color:#616161;\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<i\x20class=\x22bi\x20bi-clipboard\x22></i>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22badge\x20bg-success\x20fs-6\x20mb-1\x20mb-md-0\x20ms-md-2\x22>Precio:\x20$",
+    "drawImage",
+    "width",
+    "keydown",
+    "log",
+    "head",
+    "</strong>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22btn\x20btn-link\x20btn-sm\x20ms-2\x20p-0\x20copiar-btn\x22\x20title=\x22Copiar\x20descripción\x22\x20data-copiar=\x22",
+    ";\x20expires=",
+    "<div\x20class=\x22alert\x20alert-info\x22\x20role=\x22alert\x22>Buscando\x20producto...</div>",
+    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>No\x20se\x20encontró\x20el\x20código\x20ingresado</div>",
+    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>Ocurrió\x20un\x20error\x20al\x20consultar\x20el\x20producto</div>",
+    "<i\x20class=\x22bi\x20bi-clipboard-check\x22></i>",
+    "placeholder",
+    "observe",
+    "key",
+    "<div\x20class=\x22alert\x20alert-info\x22\x20role=\x22alert\x22>Procesando\x20imagen...</div>",
+    "smooth",
+    "</strong>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22btn\x20btn-link\x20btn-sm\x20ms-2\x20p-0\x20copiar-btn\x22\x20title=\x22Copiar\x20SKU\x22\x20data-copiar=\x22",
+    "map",
+    "stop",
+    "add",
+    "accepted",
+    "json",
+    "catch",
+    "readAsDataURL",
+    "141948QyMoZv",
+    "upc_reader",
+    "getUserMedia",
+    "❌\x20Error\x20al\x20registrar\x20SW:",
+    "height",
+    "\x0a\x20\x20\x20\x20<div\x20class=\x22d-flex\x20align-items-center\x20justify-content-end\x20h-100\x22>\x0a\x20\x20\x20\x20\x20\x20<button\x20id=\x22limpiarHistorialBtn\x22\x20class=\x22btn\x20btn-danger\x20btn-sm\x22>Limpiar\x20historial</button>\x0a\x20\x20\x20\x20</div>\x0a\x20\x20",
+    "now",
+    "</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22text-muted\x20small\x20ms-md-2\x22>Escaneado:\x20",
+    "10fbZwXD",
+    "remove",
+    "468syRqgL",
+    "POST",
+    "✅\x20Instalación\x20aceptada",
+    "pop",
+    "getContext",
+    "formulario",
+    "https://dvncloud.com/",
+    "SKU",
+    "cookie",
+    "controllerchange",
+    "URL_IMG",
+    "environment",
+    "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>No\x20se\x20detectó\x20código,\x20recorta\x20la\x20imagen\x20o\x20prueba\x20con\x20otra</div>",
+    "PRECIO",
+    "clipboard",
+    "ean_reader",
+    "replace",
+    "</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22text-secondary\x22\x20style=\x22font-size:1rem;\x22>SKU:\x20<b>",
+    "\x0a\x20\x20\x20\x20<div\x20class=\x22card\x20shadow-sm\x20mb-3\x20w-100\x22>\x0a\x20\x20\x20\x20\x20\x20<div\x20class=\x22card-header\x20bg-primary\x20text-white\x20d-flex\x20flex-column\x20flex-md-row\x20justify-content-between\x20align-items-center\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20<strong>Historial\x20de\x20productos\x20escaneados:</strong>\x0a\x20\x20\x20\x20\x20\x20\x20\x20",
+    "result",
+    "CODIGO",
+    "focus",
+    "srcObject",
+    "toDataURL",
+    "https://dvncloud.com/instancias/theback9golf/index.php?controller=theback9golf:consultar_precio&DVNUSERID=45&DVNSUCURSAL=1",
+    "serviceWorker",
+    "1712888DHIlxp",
+    "length",
+    "resultado",
+    "querySelectorAll",
+    "getTracks",
+    "display",
+    "toISOString",
+    "requestSubmit",
+    "location",
+    "style",
+    "forEach",
+    "SKU\x20desconocido",
+    "unshift",
+    "start",
+    "codeResult",
+    "CODE_39",
+    "video",
+    "FECHA_ESCANEO",
+    "application/json,\x20text/javascript,\x20*/*;\x20q=0.01",
+    "application/x-www-form-urlencoded;\x20charset=UTF-8",
+    "preventDefault",
+    "then",
+    "EAN_8",
+    "update",
+    "getRegistrations",
+    "</div>",
+    "installBtn",
+    "getAttribute",
+  ];
+  _0x2484 = function () {
+    return _0x1d57f1;
+  };
+  return _0x2484();
+}
+function iniciarScanner() {
+  const _0x32b50e = _0x3d7cac;
+  if (scannerActivo) return;
+  navigator["mediaDevices"]
+    [_0x32b50e(0x97)]({ video: !![] })
+    ["then"]((_0x5a3b72) => {
+      const _0x28c79a = _0x32b50e;
+      _0x5a3b72[_0x28c79a(0xbd)]()[_0x28c79a(0xc3)]((_0x457f4e) =>
+        _0x457f4e[_0x28c79a(0x8f)]()
+      ),
+        (scannerActivo = !![]),
+        (readerDiv[_0x28c79a(0xc2)][_0x28c79a(0xbe)] = _0x28c79a(0xd7)),
+        document[_0x28c79a(0x102)](_0x28c79a(0x100))[_0x28c79a(0x105)]({
+          behavior: _0x28c79a(0x8c),
+          block: "center",
+        }),
+        (ayudaTexto[_0x28c79a(0xc2)]["display"] = _0x28c79a(0xd7));
+      const _0x13b83e = new Html5Qrcode(_0x28c79a(0x100)),
+        _0x18b93f = {
+          fps: 0xa,
+          videoConstraints: {
+            width: { min: 0x190, ideal: 0x780 },
+            height: { min: 0x190, ideal: 0x438 },
+            facingMode: _0x28c79a(0xaa),
+            advanced: [{ zoom: 0x2 }],
+          },
+          qrbox: function (_0x1aef86, _0x52e82b) {
+            const _0x4f7eaf = Math["min"](0x12c, _0x1aef86 * 0.9),
+              _0x1e368a = 0x64;
+            return { width: _0x4f7eaf, height: _0x1e368a };
+          },
+          rememberLastUsedCamera: !![],
+          aspectRatio: 0x1,
+          formatsToSupport: [
+            Html5QrcodeSupportedFormats[_0x28c79a(0xf5)],
+            Html5QrcodeSupportedFormats["EAN_13"],
+            Html5QrcodeSupportedFormats[_0x28c79a(0xcf)],
+            Html5QrcodeSupportedFormats[_0x28c79a(0x11e)],
+            Html5QrcodeSupportedFormats["UPC_E"],
+            Html5QrcodeSupportedFormats[_0x28c79a(0xc8)],
+          ],
+          experimentalFeatures: { useBarCodeDetectorIfSupported: !![] },
+        };
+      _0x13b83e[_0x28c79a(0xc6)](
+        { facingMode: _0x28c79a(0xaa) },
+        _0x18b93f,
+        (_0x2ea973) => {
+          const _0x1b1c78 = _0x28c79a;
+          (inputCodigo["value"] = _0x2ea973[_0x1b1c78(0xfe)]()[_0x1b1c78(0xaf)](
+            /\s+$/,
+            ""
+          )),
+            _0x13b83e[_0x1b1c78(0x8f)]()["then"](() => {
+              const _0x295e01 = _0x1b1c78;
+              (readerDiv[_0x295e01(0xc2)][_0x295e01(0xbe)] = "none"),
+                (ayudaTexto["style"][_0x295e01(0xbe)] = "none"),
+                (scannerActivo = ![]),
+                _0x13b83e[_0x295e01(0xee)](),
+                form[_0x295e01(0xc0)]();
+            });
+        },
+        (_0x255c54) => {}
+      )
+        [_0x28c79a(0xce)](() => {
+          setTimeout(() => {
+            const _0x123f26 = _0x2e33,
+              _0xafe5a = readerDiv[_0x123f26(0xf8)](_0x123f26(0xc9));
+            if (_0xafe5a) {
+              const _0x33b1dc =
+                _0xafe5a[_0x123f26(0xb5)]["getVideoTracks"]()[0x0];
+              _0x33b1dc[_0x123f26(0x10c)]({
+                focusMode: "continuous",
+                advanced: [{ zoom: 0x2 }],
+              })
+                [_0x123f26(0xce)](() => {})
+                ["catch"]((_0x4216fc) => {});
+            }
+          }, 0x7d0);
+        })
+        [_0x28c79a(0x93)]((_0x573e21) => {
+          const _0x200d69 = _0x28c79a;
+          (scannerActivo = ![]),
+            (resultadoDiv["innerHTML"] =
+              "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>No\x20se\x20pudo\x20acceder\x20a\x20la\x20cámara:\x20" +
+              _0x573e21 +
+              _0x200d69(0xd2)),
+            renderHistorial();
+        });
+      const _0x1997e6 = new MutationObserver(() => {
+        const _0x19763c = _0x28c79a,
+          _0x56fb7e = readerDiv[_0x19763c(0xf8)](_0x19763c(0xc9));
+        _0x56fb7e &&
+          (_0x56fb7e[_0x19763c(0xe1)](_0x19763c(0x11c), ""),
+          _0x56fb7e[_0x19763c(0xe1)]("autoplay", ""),
+          _0x56fb7e[_0x19763c(0xe1)](_0x19763c(0x106), ""),
+          _0x1997e6[_0x19763c(0x109)]());
+      });
+      _0x1997e6[_0x28c79a(0x89)](readerDiv, { childList: !![], subtree: !![] });
+    })
+    ["catch"]((_0x5bee5c) => {
+      (resultadoDiv["innerHTML"] =
+        "<div\x20class=\x22alert\x20alert-danger\x22\x20role=\x22alert\x22>Por\x20favor\x20autoriza\x20el\x20acceso\x20a\x20la\x20cámara</div>"),
+        renderHistorial();
     });
 }
-
-//Leer codigo de barras desde una imagen
-const fileInput = document.getElementById("fileInput");
-fileInput.addEventListener("change", async (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  resultadoDiv.innerHTML = `<div class="alert alert-info" role="alert">Procesando imagen...</div>`;
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const img = new Image();
-    img.onload = function () {
-      // Preprocesar la imagen: convertir a blanco y negro
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-
-      const imageData = ctx.getImageData(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-      const data = imageData.data;
-      for (let i = 0; i < data.length; i += 4) {
-        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-        const value = avg > 128 ? 255 : 0; // Umbral simple
-        data[i] = data[i + 1] = data[i + 2] = value;
+const fileInput = document[_0x3d7cac(0x102)](_0x3d7cac(0xf6));
+fileInput[_0x3d7cac(0xe3)](_0x3d7cac(0xeb), async (_0x4504f3) => {
+  const _0x33fe70 = _0x3d7cac,
+    _0x49c395 = _0x4504f3[_0x33fe70(0xdb)]["files"][0x0];
+  if (!_0x49c395) return;
+  resultadoDiv["innerHTML"] = _0x33fe70(0x8b);
+  const _0x52e6a7 = new FileReader();
+  (_0x52e6a7[_0x33fe70(0x11a)] = function (_0x2f91a7) {
+    const _0xa7fac = _0x33fe70,
+      _0x29f872 = new Image();
+    (_0x29f872[_0xa7fac(0x11a)] = function () {
+      const _0x4a736a = _0xa7fac,
+        _0x256706 = document[_0x4a736a(0xd9)](_0x4a736a(0xd5)),
+        _0x28a1e0 = _0x256706[_0x4a736a(0xa3)]("2d");
+      (_0x256706[_0x4a736a(0x7e)] = _0x29f872[_0x4a736a(0x7e)]),
+        (_0x256706[_0x4a736a(0x99)] = _0x29f872[_0x4a736a(0x99)]),
+        _0x28a1e0[_0x4a736a(0x7d)](_0x29f872, 0x0, 0x0);
+      const _0x2f8e1b = _0x28a1e0[_0x4a736a(0xea)](
+          0x0,
+          0x0,
+          _0x256706[_0x4a736a(0x7e)],
+          _0x256706[_0x4a736a(0x99)]
+        ),
+        _0x461b57 = _0x2f8e1b[_0x4a736a(0x11f)];
+      for (
+        let _0x54ebb2 = 0x0;
+        _0x54ebb2 < _0x461b57[_0x4a736a(0xba)];
+        _0x54ebb2 += 0x4
+      ) {
+        const _0x4533a9 =
+            (_0x461b57[_0x54ebb2] +
+              _0x461b57[_0x54ebb2 + 0x1] +
+              _0x461b57[_0x54ebb2 + 0x2]) /
+            0x3,
+          _0x56aef1 = _0x4533a9 > 0x80 ? 0xff : 0x0;
+        _0x461b57[_0x54ebb2] =
+          _0x461b57[_0x54ebb2 + 0x1] =
+          _0x461b57[_0x54ebb2 + 0x2] =
+            _0x56aef1;
       }
-      ctx.putImageData(imageData, 0, 0);
-
-      const processedDataUrl = canvas.toDataURL();
-
-      Quagga.decodeSingle(
+      _0x28a1e0[_0x4a736a(0x103)](_0x2f8e1b, 0x0, 0x0);
+      const _0x20f522 = _0x256706[_0x4a736a(0xb6)]();
+      Quagga[_0x4a736a(0xde)](
         {
-          src: processedDataUrl,
-          numOfWorkers: 0,
-          locate: true,
-          inputStream: {
-            size: 800,
-          },
+          src: _0x20f522,
+          numOfWorkers: 0x0,
+          locate: !![],
+          inputStream: { size: 0x320 },
           decoder: {
             readers: [
-              "ean_reader",
+              _0x4a736a(0xae),
               "ean_8_reader",
               "code_128_reader",
-              "upc_reader",
-              "upc_e_reader",
+              _0x4a736a(0x96),
+              _0x4a736a(0x116),
               "code_39_reader",
             ],
           },
         },
-        function (result) {
-          if (result && result.codeResult) {
-            inputCodigo.value = result.codeResult.code.trim().replace(/\s+$/, "");
-            form.requestSubmit();
-          } else {
-            resultadoDiv.innerHTML = `<div class="alert alert-danger" role="alert">No se detectó código, recorta la imagen o prueba con otra</div>`;
-            renderHistorial();
-          }
-          fileInput.value = "";
+        function (_0x10c289) {
+          const _0x48eac7 = _0x4a736a;
+          _0x10c289 && _0x10c289[_0x48eac7(0xc7)]
+            ? ((inputCodigo[_0x48eac7(0xe8)] = _0x10c289["codeResult"]["code"]
+                ["trim"]()
+                [_0x48eac7(0xaf)](/\s+$/, "")),
+              form[_0x48eac7(0xc0)]())
+            : ((resultadoDiv[_0x48eac7(0x118)] = _0x48eac7(0xab)),
+              renderHistorial()),
+            (fileInput[_0x48eac7(0xe8)] = "");
         }
       );
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+    }),
+      (_0x29f872[_0xa7fac(0xfc)] = _0x2f91a7[_0xa7fac(0xdb)][_0xa7fac(0xb2)]);
+  }),
+    _0x52e6a7[_0x33fe70(0x94)](_0x49c395);
 });
-
-// Registro del Service Worker
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("service-worker.js")
-      .then((reg) =>
-        console.log("✅ Service Worker registrado:", reg.scope)
+_0x3d7cac(0xb8) in navigator &&
+  window[_0x3d7cac(0xe3)](_0x3d7cac(0x112), () => {
+    const _0x3b85f5 = _0x3d7cac;
+    navigator[_0x3b85f5(0xb8)]
+      ["register"]("service-worker.js")
+      [_0x3b85f5(0xce)]((_0x978cae) =>
+        console[_0x3b85f5(0x80)](_0x3b85f5(0xe2), _0x978cae[_0x3b85f5(0x120)])
       )
-      .catch((err) => console.error("❌ Error al registrar SW:", err));
+      [_0x3b85f5(0x93)]((_0x1e5977) =>
+        console[_0x3b85f5(0xdc)](_0x3b85f5(0x98), _0x1e5977)
+      );
   });
-}
-
-// Manejo del evento beforeinstallprompt
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  if (installBtn) {
-    installBtn.classList.remove("d-none");
-  }
-});
-
-installBtn.addEventListener("click", (e) => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === "accepted") {
-        console.log("✅ Instalación aceptada");
-      } else {
-        console.log("❌ Instalación rechazada");
+window[_0x3d7cac(0xe3)](_0x3d7cac(0x108), (_0x354a48) => {
+  const _0x445bb1 = _0x3d7cac;
+  _0x354a48[_0x445bb1(0xcd)](),
+    (deferredPrompt = _0x354a48),
+    installBtn && installBtn[_0x445bb1(0x110)][_0x445bb1(0x9e)]("d-none");
+}),
+  installBtn[_0x3d7cac(0xe3)](_0x3d7cac(0xfb), (_0x545b6c) => {
+    const _0x1cd510 = _0x3d7cac;
+    deferredPrompt &&
+      (deferredPrompt[_0x1cd510(0xef)](),
+      deferredPrompt["userChoice"][_0x1cd510(0xce)]((_0x21911d) => {
+        const _0x97c484 = _0x1cd510;
+        _0x21911d[_0x97c484(0xdd)] === _0x97c484(0x91)
+          ? console[_0x97c484(0x80)](_0x97c484(0xa1))
+          : console[_0x97c484(0x80)](_0x97c484(0x111)),
+          (deferredPrompt = null),
+          installBtn["classList"][_0x97c484(0x90)](_0x97c484(0x10f));
+      }));
+  });
+"serviceWorker" in navigator &&
+  (navigator[_0x3d7cac(0xb8)]
+    [_0x3d7cac(0xd1)]()
+    [_0x3d7cac(0xce)](function (_0x7f3432) {
+      const _0x52d151 = _0x3d7cac;
+      for (let _0x53945d of _0x7f3432) {
+        _0x53945d[_0x52d151(0xd0)]();
       }
-      deferredPrompt = null;
-      installBtn.classList.add("d-none");
-    });
-  }
-});
-
-// Forzar actualización del Service Worker y recarga automática si hay nueva versión
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for(let registration of registrations) {
-      registration.update();
-    }
-  });
-  navigator.serviceWorker.addEventListener('controllerchange', function() {
-    window.location.reload();
-  });
+    }),
+  navigator["serviceWorker"][_0x3d7cac(0xe3)](_0x3d7cac(0xa8), function () {
+    const _0x3efd4d = _0x3d7cac;
+    window[_0x3efd4d(0xc1)][_0x3efd4d(0xe6)]();
+  }));
+function _0x2e33(_0x1e6d1c, _0x4156b6) {
+  const _0x2484a7 = _0x2484();
+  return (
+    (_0x2e33 = function (_0x2e3338, _0x471b51) {
+      _0x2e3338 = _0x2e3338 - 0x7d;
+      let _0x399965 = _0x2484a7[_0x2e3338];
+      return _0x399965;
+    }),
+    _0x2e33(_0x1e6d1c, _0x4156b6)
+  );
 }
-
-// Estilo para mostrar solo el cuadro de escaneo
-const style = document.createElement('style');
-style.innerHTML = `
-  #reader {
-    position: relative;
-    width: 320px;
-    height: 120px;
-    overflow: hidden;
-    margin: 0 auto;
-    background: #000;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-  #reader video {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 320px !important;
-    height: 120px !important;
-    object-fit: cover;
-  }
-`;
-document.head.appendChild(style);
-
-// Renderiza historial
-renderHistorial();
+const style = document[_0x3d7cac(0xd9)](_0x3d7cac(0xc2));
+(style[_0x3d7cac(0x118)] = _0x3d7cac(0x104)),
+  document[_0x3d7cac(0x81)][_0x3d7cac(0xda)](style),
+  renderHistorial();
