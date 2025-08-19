@@ -59,14 +59,23 @@ function renderHistorial() {
             : `<ul class="list-group list-group-flush">
                 ${historial
                   .map((producto) => {
-                    const sku =
-                      producto.CODIGO || producto.SKU || "SKU desconocido";
+                    const sku = producto.CODIGO || producto.SKU || "SKU desconocido";
                     const fecha = producto.FECHA_ESCANEO
                       ? new Date(producto.FECHA_ESCANEO).toLocaleString()
                       : "Fecha desconocida";
                     return `<li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
-                      <span><strong>${producto.NOMBRE}</strong></span>
-                      <span class="small text-secondary ms-md-2">SKU: <strong>${sku}</strong></span>
+                      <span class="d-flex align-items-center">
+                        <strong>${producto.NOMBRE}</strong>
+                        <button class="btn btn-link btn-sm ms-2 p-0 copiar-btn" title="Copiar descripción" data-copiar="${producto.NOMBRE}" style="font-size:1.2rem; color:#616161;">
+                          <i class="bi bi-clipboard"></i>
+                        </button>
+                      </span>
+                      <span class="small text-secondary ms-md-2 d-flex align-items-center">
+                        SKU: <strong class="ms-1">${sku}</strong>
+                        <button class="btn btn-link btn-sm ms-2 p-0 copiar-btn" title="Copiar SKU" data-copiar="${sku}" style="font-size:1.2rem; color:#616161;">
+                          <i class="bi bi-clipboard"></i>
+                        </button>
+                      </span>
                       <span class="badge bg-success fs-6 mb-1 mb-md-0 ms-md-2">Precio: $${producto.PRECIO}</span>
                       <span class="text-muted small ms-md-2">Escaneado: ${fecha}</span>
                     </li>`;
@@ -87,6 +96,22 @@ function renderHistorial() {
       renderHistorial();
     });
   }
+
+  // Botones copiar
+  const copiarBtns = historialDiv.querySelectorAll('.copiar-btn');
+  copiarBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const valor = btn.getAttribute('data-copiar');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(valor).then(() => {
+          btn.innerHTML = '<i class="bi bi-clipboard-check"></i>';
+          setTimeout(() => {
+            btn.innerHTML = '<i class="bi bi-clipboard"></i>';
+          }, 1200);
+        });
+      }
+    });
+  });
 }
 
 // --- ENVÍO AUTOMÁTICO AL ESCANEAR O PEGAR UN SKU ---
@@ -150,15 +175,20 @@ form.addEventListener("submit", async (e) => {
                    urlImg = `https://dvncloud.com/${cleanPath.replace(/^\//, "")}`;
                }
            }
-        resultadoDiv.innerHTML = `
-          <div class="alert alert-success" role="alert">
-            <strong>Producto encontrado:</strong> ${producto.NOMBRE}<br>
-            <span class="text-secondary">SKU: <strong>${producto.CODIGO}</strong></span><br>
-            <span class="fw-bold">Precio: $${producto.PRECIO}</span><br>
-            <span class="text-muted small">Escaneado: ${new Date(producto.FECHA_ESCANEO).toLocaleString()}</span><br>
-                   ${urlImg ? `<div style="display:flex; justify-content:center; align-items:center; width:100%;"><img src="${urlImg}" alt="Imagen del producto" style="width:180px; height:180px; object-fit:contain; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-top:10px;"></div>` : ""}
+      resultadoDiv.innerHTML = `
+        <div class="row align-items-center justify-content-center g-0 mb-4" style="padding: 0px 10px;">
+          ${urlImg ? `
+          <div class="col-12 col-lg-4 d-flex justify-content-center mb-3 mb-lg-0">
+            <img src="${urlImg}" alt="Imagen del producto" class="img-fluid rounded shadow" style="max-width:220px; background:#f5f5f5; padding:10px;">
           </div>
-        `;
+          ` : ""}
+          <div class="col-12 col-lg-8 text-center">
+            <div class="fw-bold" style="font-size:2rem; color:#616161;">${producto.NOMBRE}</div>
+            <div class="fw-bold text-danger" style="font-size:4rem;">$ ${producto.PRECIO}</div>
+            <div class="text-secondary" style="font-size:1rem;">SKU: <b>${producto.CODIGO}</b></div>
+          </div>
+        </div>
+      `;
       inputCodigo.value = "";
       inputCodigo.focus();
     } else {
